@@ -2,11 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 from crawler import crawler
-crawler = crawler(depth=1)
+crawler = crawler(depth=4)
 
 def main():
-    crawler.crawl()
-    crawler.printResults()
+    url = 'http://wikipedia.org'
+    crawler.crawl(url)
 
 if __name__ == '__main__':
     main()

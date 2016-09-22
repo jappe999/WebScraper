@@ -9,7 +9,13 @@ class webPage(object):
         pass
 
     def _getPage(self, url):
-        response = r.get(url)
+        response = None
+        url = url.replace('\"', '')
+        url = url.replace('^(\/\/)', 'http://')
+        try:
+            response = r.get(url)
+        except Exception as e:
+            print 'Error: {}'.format(e)
         return response
 
     def _getAnchors(self, text):
