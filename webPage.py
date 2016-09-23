@@ -15,10 +15,18 @@ class webPage(object):
         try:
             response = r.get(url)
         except Exception as e:
-            print 'Error: {}'.format(e)
+            pass
+            #print 'Error: {}'.format(e)
         return response
 
     def _getAnchors(self, text):
-        c = re._compile("\s*(?i)href\s*=\s*(\"([^\"]*\")|'[^']*'|([^'\">\s]+))", re.M)
+        c = re._compile("<a\s*(?i)href\s*=\s*(\"([^\"]*\")|'[^']*'|([^'\">\s]+))", re.M) # Regex for get text out of href attr
         anchors = c.findall(text)
-        return anchors
+        results = []
+        for anchor in anchors:
+            a = list(anchor)
+            print a[0]
+            a[0] = a[0].replace('^((?!(http:|https:))?[\/]{2})', 'http://')
+            results.append(a[0])
+
+        return results
