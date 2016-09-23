@@ -1,15 +1,25 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import re, MySQLdb
+import re
 import requests as r
 from bs4 import BeautifulSoup
 
-url = '//wikipedia.org'
-url = re.sub("^[:]?[\/]{2}", "http://", url)
+url      = 'http://wikipedia.org'
 response = r.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-for link in soup.find_all('a'):
-    print '{}\n'.format(link)
+soup     = BeautifulSoup(response.text, 'html.parser')
+results  = []
+
+for link in soup('a'):
+    #anchor  = []
+    href = re.sub("^[:]?[\/]{2}", "http://", link.get('href'))
+    try:
+        title = link.string if not link.string == None else ''
+    except:
+        title = ''
+
+    print '{}, {}\n'.format(href, title)
+    '''anchor.append(href)
+    results.append(anchor)'''
 
 print 'Source: {}'.format(soup.title.text)
