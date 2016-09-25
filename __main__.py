@@ -7,7 +7,7 @@ crawler = crawler(depth=4)
 def main():
     print """
 This program scrapes the Internet for top-level domains, meta-information and other important data.\n
-It starts from the domain \'http://wikipedia.org\' and follows an huge network of hyperlinks.\n
+It starts from the domain \'http://dmoz.com/\' and follows an huge network of hyperlinks.\n
 \n
 MIT License\n
 Build by:
@@ -15,7 +15,7 @@ Build by:
 \t@midyro and
 \t@jappe999
     """
-    url = 'http://wikipedia.org'
+    url = 'http://dmoz.com/'
     crawler.crawl(url)
 
 if __name__ == '__main__':
