@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from crawler import crawler
-crawler = crawler(depth=4)
+crawler = crawler(depth=2)
 
 def main():
     print """
@@ -15,7 +15,7 @@ Build by:
 \t@midyro and
 \t@jappe999
     """
-    url = 'http://dmoz.com/'
+    url = 'http://webdrawings.nl/'
     crawler.crawl(url)
 
 if __name__ == '__main__':
