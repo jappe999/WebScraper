@@ -3,7 +3,6 @@
 
 from threading import Thread
 from webPage import webPage
-from urlparse import urlparse as parser
 from collections import deque
 import sys, time
 webPage = webPage() # Init webPage object

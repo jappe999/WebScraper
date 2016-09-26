@@ -2,17 +2,16 @@
 # -*- coding: UTF-8 -*-
 
 #Import libraries
-import re, urllib
-import requests as r
+import re, urllib.request, urllib.error
 from bs4 import BeautifulSoup
-from urlparse import urlparse as parser
+from urllib.parse import urlparse as parser
 
 class webPage(object):
     def __init__(self, proxies=[]):
         pass
 
     def getDomain(self, url):
-        uri     = parser(url)
+        uri     = parses(url)
         domain  = '{}://{}/'.format(uri.scheme, uri.netloc)
         return domain
 
@@ -22,7 +21,7 @@ class webPage(object):
         url = re.sub("^[:]?[\/]{2}", "http://", url) # If url starts with :// or // replace it with http://
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
         try:
-            response = r.get(url)
+            response = urllib.request.urlopen(url)
         except Exception as e:
             pass
         return response
