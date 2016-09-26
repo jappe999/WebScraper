@@ -11,7 +11,7 @@ class webPage(object):
         pass
 
     def getDomain(self, url):
-        uri     = parses(url)
+        uri     = parser(url)
         domain  = '{}://{}/'.format(uri.scheme, uri.netloc)
         return domain
 
@@ -21,7 +21,7 @@ class webPage(object):
         url = re.sub("^[:]?[\/]{2}", "http://", url) # If url starts with :// or // replace it with http://
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
         try:
-            response = urllib.request.urlopen(url)
+            response = urllib.request.urlopen(url).read()
         except Exception as e:
             pass
         return response

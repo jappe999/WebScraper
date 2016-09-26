@@ -22,7 +22,7 @@ class crawler(object):
         if not response == None:
             #self.visitedHrefs.append(url)
             domain = webPage.getDomain(url) # ... get domain from that repsonse...
-            anchors = webPage.getAnchors(domain, response.text) # ... and get hrefs from the response
+            anchors = webPage.getAnchors(domain, response) # ... and get hrefs from the response
             for anchor in anchors: # Repeat the crawl function for every anchor
                 if anchor[0] not in (self.visitedHrefs and self.hrefs): # If the anchor is already in the database, ignore it
                     #print(anchor[0])
