@@ -21,7 +21,7 @@ class webPage(object):
         url = re.sub("^[:]?[\/]{2}", "http://", url) # If url starts with :// or // replace it with http://
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
         try:
-            content = urllib.request.urlopen(url).read().decode('utf-8')
+            content = urllib.request.urlopen(url).read()
             response = ''
             for line in content:
                  repsonse += line.decode('utf-8')
