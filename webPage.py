@@ -37,7 +37,7 @@ class webPage(object):
                 href = re.sub("^[:]?[\/]{2}", "http://", href) # If href starts with :// or // replace it with http://
                 href = re.sub("^[\/]{1}", domain, href) # If href starts with a single slash replace it with the domain
             except Exception as e:
-                print 'Error: ', e
+                print('Error: ', e)
 
             #Try this and otherwise the link is False and won't be put in the DB
             try:

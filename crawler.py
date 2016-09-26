@@ -26,13 +26,13 @@ class crawler(object):
             anchors = webPage.getAnchors(domain, response.text) # ... and get hrefs from the response
             for anchor in anchors: # Repeat the crawl function for every anchor
                 if anchor[0] not in (self.visitedHrefs and self.hrefs): # If the anchor is already in the database, ignore it
-                    #print anchor[0]
+                    #print(anchor[0])
                     self.hrefs.append(anchor[0]) # And last but not least: Put the retrieved anchors in a list for the next iteration
 
     def crawl(self, url):
         self.unvisitedHrefs.append(url)
         while self.currentDepth < self.depth:
-            print '\nLayer: {}'.format(self.currentDepth+1)
+            print('\nLayer: {}'.format(self.currentDepth+1))
             self.runs = 0
             self._assignTasks()
             while self.getTasksLeft():
@@ -68,9 +68,9 @@ class crawler(object):
         t.start()
 
     def printResults(self):
-        print '\n'
+        print('\n')
         for href in self.visitedHrefs:
-            print href
+            print(href)
 
     def stop(self):
         sys.exit()
