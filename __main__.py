@@ -12,7 +12,7 @@ It starts from the domain \'http://dmoz.com/\' and follows an huge network of hy
 MIT License\n
 Build by:
 \t@papierbouwer
-\t@midyro and
+\t@hahaha1234 and
 \t@jappe999
     """
     url = 'http://webdrawings.nl/'

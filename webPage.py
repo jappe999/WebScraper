@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from urlparse import urlparse as parser
 
 class webPage(object):
-    def __init__(self, proxies=""):
+    def __init__(self, proxies=[]):
         pass
 
     def getDomain(self, url):
@@ -25,7 +25,6 @@ class webPage(object):
             response = r.get(url)
         except Exception as e:
             pass
-            #print 'Error: {}'.format(e)
         return response
 
     def getAnchors(self, domain, response):
@@ -37,8 +36,8 @@ class webPage(object):
                 href = str(link.get('href')).encode('utf-8') if not link.get('href') == None else '#' # Get href out of anchor
                 href = re.sub("^[:]?[\/]{2}", "http://", href) # If href starts with :// or // replace it with http://
                 href = re.sub("^[\/]{1}", domain, href) # If href starts with a single slash replace it with the domain
-            except:
-                print 'error'
+            except Exception as e:
+                print 'Error: ', e
 
             #Try this and otherwise the link is False and won't be put in the DB
             try:
@@ -49,20 +48,8 @@ class webPage(object):
                 # If string isn't encoded in iso 8859-1, ignore it and go next iteration
                 continue
 
-            #print href
             anchor.append(href)
             anchor.append(text)
             results.append(anchor) # Put content in array
-
-        '''
-        c = re._compile("<a\s*(?i)href\s*=\s*(\"([^\"]*\")|'[^']*'|([^'\">\s]+))", re.M) # Regex for get text out of href attr
-        anchors = c.findall(text)
-        results = []
-        for anchor in anchors:
-            a = list(anchor)
-            print a[0]
-            a[0] = a[0].replace('^((?!(http:|https:))?[\/]{2})', 'http://')
-            results.append(a[0])
-        '''
 
         return results
