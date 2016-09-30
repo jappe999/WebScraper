@@ -1,20 +1,23 @@
 #!/usr/bin/python
+
 # -*- coding: UTF-8 -*-
 
 from threading import Thread
 from webPage import webPage
-from collections import deque
 import sys, time
 webPage = webPage() # Init webPage object
 
 class crawler(object):
-    def __init__(self, depth):
+    def __init__(self, url, depth, maxPages=False):
+        self.urlBegin = url
         self.depth = depth # Maximum depth of crawling
         self.currentDepth = 0
-        self.unvisitedHrefs = deque()
-        self.hrefs = deque() # Object with all the hrefs from x layers
-        self.visitedHrefs = deque()
+        self.unvisitedHrefs = []
+        self.hrefs = [] # Object with all the hrefs from x layers
+        self.visitedHrefs = []
+        self.discoveredHrefs = []
         self.runs = 0
+        self.timeBegin = time.time()
 
     # Async function to...
     def _scrape(self, url):
@@ -25,10 +28,11 @@ class crawler(object):
             anchors = webPage.getAnchors(domain, response) # ... and get hrefs from the response
             for anchor in anchors: # Repeat the crawl function for every anchor
                 if anchor[0] not in (self.visitedHrefs and self.hrefs): # If the anchor is already in the database, ignore it
-                    #print(anchor[0])
+                    self.discoveredHrefs.append(anchor[0])
                     self.hrefs.append(anchor[0]) # And last but not least: Put the retrieved anchors in a list for the next iteration
 
     def crawl(self, url):
+        self.hrefs.append(url)
         self.unvisitedHrefs.append(url)
         while self.currentDepth < self.depth:
             print('\nLayer: {}'.format(self.currentDepth+1))
@@ -38,7 +42,7 @@ class crawler(object):
                 time.sleep(.1)
 
             self.unvisitedHrefs = self.hrefs
-            self.hrefs = deque()
+            self.hrefs = []
 
             self.currentDepth += 1
         self.printResults()
@@ -46,10 +50,15 @@ class crawler(object):
 
     def _assignTasks(self):
         while self.unvisitedHrefs:
-            url = self.unvisitedHrefs.popleft()
+            url = self.popLeft(self.unvisitedHrefs)
             self.visitedHrefs.append(url)
             self._addToPool(url)
             self.decreaseRuns()
+
+    def popLeft(self, arr):
+        url = arr[0]
+        del(arr[0])
+        return url
 
     def decreaseRuns(self):
         self.runs -= 1
@@ -68,8 +77,9 @@ class crawler(object):
 
     def printResults(self):
         print('\n')
-        for href in self.visitedHrefs:
-            print(href)
+        print('\nTime spent:', (time.time() - self.timeBegin))
+        print(len(self.discoveredHrefs))
+        print('\nBegun from:', self.urlBegin)
 
     def stop(self):
         sys.exit()

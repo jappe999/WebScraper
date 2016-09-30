@@ -4,6 +4,8 @@
 import requests, re
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+from threading import Thread
+from time import sleep
 
 class Crawler(object):
     """docstring for Crawler."""
@@ -24,20 +26,20 @@ class Crawler(object):
         return True
 
     def crawl(self):
-        while self.maxSites > 0 and len(self.queue) > 0:
-            url = self.queue[0]
-            del(self.queue[0])
-            self.maxSites -= 1
-
-            webpage = WebPage(url)
+        while self.maxSites > 0:
             try:
-                anchers = webpage.getAnchors()
+                url = self.queue[0]
+                del(self.queue[0])
+                self.maxSites -= 1
+
+                webpage = WebPage(url)
+
+                t = Thread(target=webpage.addAnchors())
+                t.daemon = True
+                t.start()
             except Exception as e:
                 pass
-
-            #TODO: Test if link is already checked 
-            for anchor in anchers:
-                self.queue.append(anchor[0])
+            sleep(.1)
 
             #TODO: add db-connection and save HTML
             #print(webpage.getHTML())
@@ -68,7 +70,7 @@ class WebPage(object):
         else:
             return request.status_code
 
-    def getAnchors(self, safeHtml = False):
+    def getAnchors(self, safeHtml=False):
         text = self.getPage()
         soup = BeautifulSoup(text, 'html.parser')
         results = []
@@ -81,7 +83,7 @@ class WebPage(object):
                 href = str(link.get('href'))
                 #href = str(link.get('href')).encode('utf-8') if not link.get('href') == None else '#' # Get href out of anchor
                 href = re.sub("^[:]?[\/]{2}", "http://", href) # If href starts with :// or // replace it with http://
-                href = re.sub("^\/", self.domain + "/", href) # If href starts with a single slash replace it with the domain
+                href = re.sub("^\/", self.domain, href) # If href starts with a single slash replace it with the domain
                 href = re.sub("^\.\/", self.domain, href)
                 href = re.sub("^\?", self.domain + "?", href)
             except Exception as e:
@@ -103,6 +105,14 @@ class WebPage(object):
 
         return results
 
+    def addAnchors(self):
+        anchers = self.getAnchors()
+
+        #TODO: Test if link is already checked
+        for anchor in anchers:
+            print(True)
+            self.queue.append(anchor[0])
+
     def getHTML(self):
         if hasattr(self, 'text'):
             return self.text
@@ -115,7 +125,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-    webCrawler = Crawler(100, "http://v14ebaalbe.helenparkhurst.net/")
+    webCrawler = Crawler(7600, "http://dmoz.com/")
     webCrawler.crawl()
     #page = WebPage("http://v14ebaalbe.helenparkhurst.net/")
     #print(page.getAnchors())

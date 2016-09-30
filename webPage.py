@@ -16,18 +16,16 @@ class webPage(object):
         return domain
 
     def getPage(self, url):
-        response = None
         domain = self.getDomain(url)
         url = re.sub("^[:]?[\/]{2}", "http://", url) # If url starts with :// or // replace it with http://
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
+        response = ''
         try:
-            content = urllib.request.urlopen(url).read()
-            response = ''
-            for line in content:
-                 repsonse += line.decode('utf-8')
-
+            resource = urllib.request.urlopen(url)
+            response = str(resource.read().decode(resource.headers.get_content_charset()))
         except Exception as e:
-            pass
+            print(e)
+
         return response
 
     def getAnchors(self, domain, response):
@@ -36,7 +34,7 @@ class webPage(object):
         for link in soup('a'):
             anchor  = []
             try:
-                href = str(link.get('href')).encode('utf-8') if not link.get('href') == None else '#' # Get href out of anchor
+                href = link.get('href') if not link.get('href') == None else '#' # Get href out of anchor
                 href = re.sub("^[:]?[\/]{2}", "http://", href) # If href starts with :// or // replace it with http://
                 href = re.sub("^[\/]{1}", domain, href) # If href starts with a single slash replace it with the domain
             except Exception as e:
