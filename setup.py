@@ -1,30 +1,30 @@
 from os import system
 
-pipInstalls = ['bs4']
+pipInstalls = ['bs4', 'requests']
 
 def main():
-    for item in pipInstalls:
         try:
+            items = ' '.join(pipInstalls)
             try:
-                command = 'python -m pip install {}'.format(item)
+                command = 'python -m pip install {}'.format(items)
                 system(command)
             except:
                 pass
 
             try:
-                command = 'python3 -m pip install {}'.format(item)
+                command = 'python3 -m pip install {}'.format(items)
                 system(command)
             except:
                 pass
 
             try:
-                command = 'py -m pip install {}'.format(item)
+                command = 'py -m pip install {}'.format(items)
                 system(command)
             except:
                 pass
 
             try:
-                command = 'sudo python3 -m pip install {}'.format(item)
+                command = 'sudo python3 -m pip install {}'.format(items)
                 system(command)
             except:
                 pass

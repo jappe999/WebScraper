@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 #Import libraries
-import re, urllib.request, urllib.error
+import re, requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse as parser
 
@@ -21,8 +21,8 @@ class webPage(object):
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
         response = ''
         try:
-            resource = urllib.request.urlopen(url)
-            response = str(resource.read().decode(resource.headers.get_content_charset()))
+            response = requests.get(url)
+            response = response.text
         except Exception as e:
             print(e)
 

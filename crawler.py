@@ -4,6 +4,7 @@
 
 from threading import Thread
 from webPage import webPage
+from database import database
 import sys, time
 webPage = webPage() # Init webPage object
 
@@ -18,6 +19,7 @@ class crawler(object):
         self.discoveredHrefs = []
         self.runs = 0
         self.timeBegin = time.time()
+        self.database = database()
 
     # Async function to...
     def _scrape(self, url):
@@ -77,8 +79,19 @@ class crawler(object):
 
     def printResults(self):
         print('\n')
-        print('\nTime spent:', (time.time() - self.timeBegin))
-        print(len(self.discoveredHrefs))
+        t = (time.time() - self.timeBegin)
+        print('\nTime spent:', t)
+        print('Hyperlinks found:', len(self.discoveredHrefs))
+        hrefs = ''
+        try:
+            hrefs = ','.join(self.discoveredHrefs)
+        except Exception as e:
+            print(e)
+        finally:
+            print('That\'s about {} Bytes'.format(len(hrefs)))
+            div = (len(self.discoveredHrefs) / t)
+            print('That\'s {} hyperlinks per second discovered.'.format(div))
+
         print('\nBegun from:', self.urlBegin)
 
     def stop(self):

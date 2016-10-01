@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 from crawler import crawler
-from termcolor import colored
 
 url = 'http://dmoz.com/'
 crawler = crawler(url, depth=2)
