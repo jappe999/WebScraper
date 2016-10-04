@@ -2,7 +2,7 @@
 A WebScraper made with python
 
 ## Looking for the wiki?
-Are you looking for the wiki? Click [here](wiki/)
+Are you looking for the wiki? Click [here](https://github.com/jappe999/WebScraper/wiki/)
 
 
 ## Before running the script
