@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 from crawler import crawler
+from threading import Thread
 
-url = 'http://dmoz.com/'
-crawler = crawler(url, depth=2)
+URLs = ['http://dmoz.com', 'http://wikipedia.org']
 
 def main():
     print("""
@@ -17,7 +17,10 @@ Build by:
 \t@hahaha1234 and
 \t@jappe999
     """)
-    crawler.crawl(url)
+    for url in URLs:
+        t = Thread(target=crawler(url, depth=1).crawl(url))
+        t.daemon = True
+        t.start()
 
 if __name__ == '__main__':
     main()

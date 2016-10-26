@@ -26,8 +26,11 @@ class crawler(object):
         response = webPage.getPage(url) # ... get pageresponse,...
         if not response == None:
             #self.visitedHrefs.append(url)
-            domain = webPage.getDomain(url) # ... get domain from that repsonse...
-            anchors = webPage.getAnchors(domain, response) # ... and get hrefs from the response
+            domain  = webPage.getDomain(url) # ... get domain from that repsonse...
+            path    = webPage.getPath(url)
+            anchors = webPage.getAnchors(domain, path, response) # ... and get hrefs from the response
+            self.database.appendToQueue(anchors)
+            #self.database.removeFromQueue(url)
             for anchor in anchors: # Repeat the crawl function for every anchor
                 if anchor[0] not in (self.visitedHrefs and self.hrefs): # If the anchor is already in the database, ignore it
                     self.discoveredHrefs.append(anchor[0])
@@ -85,6 +88,7 @@ class crawler(object):
         hrefs = ''
         try:
             hrefs = ','.join(self.discoveredHrefs)
+            open('./queue.txt', 'w+').write(hrefs)
         except Exception as e:
             print(e)
         finally:

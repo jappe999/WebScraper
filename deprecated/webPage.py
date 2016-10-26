@@ -12,13 +12,19 @@ class webPage(object):
 
     def getDomain(self, url):
         uri     = parser(url)
-        domain  = '{}://{}/'.format(uri.scheme, uri.netloc)
+        domain  = '{}://{}'.format(uri.scheme, uri.netloc)
         return domain
+
+    def getPath(self, url):
+        uri     = parser(url)
+        return uri.path + '/'
 
     def getPage(self, url):
         domain = self.getDomain(url)
+        path   = self.getPath(url)
         url = re.sub("^[:]?[\/]{2}", "http://", url) # If url starts with :// or // replace it with http://
         url = re.sub("^[\/]{1}", domain, url) # If url starts with a single slash replace it with the domain
+        url = re.sub("^([?#].*){1}", domain + path + url, url)
         response = ''
         try:
             response = requests.get(url)
@@ -28,7 +34,7 @@ class webPage(object):
 
         return response
 
-    def getAnchors(self, domain, response):
+    def getAnchors(self, domain, path, response):
         soup    = BeautifulSoup(response, 'html.parser') # Init BeautifulSoup with the response of the webpage
         results = []
         for link in soup('a'):
@@ -36,7 +42,8 @@ class webPage(object):
             try:
                 href = link.get('href') if not link.get('href') == None else '#' # Get href out of anchor
                 href = re.sub("^[:]?[\/]{2}", "http://", href) # If href starts with :// or // replace it with http://
-                href = re.sub("^[\/]{1}", domain, href) # If href starts with a single slash replace it with the domain
+                href = re.sub("^[\/]{1}", domain + '/', href) # If href starts with a single slash replace it with the domain
+                href = re.sub("^([?#].*){1}", domain + path + href, href)
             except Exception as e:
                 print('Error: ', e)
 
