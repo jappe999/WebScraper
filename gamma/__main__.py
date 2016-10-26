@@ -12,7 +12,7 @@ class Crawler(object):
 
     def crawl(self):
         while len(self.urls) > 0:
-            t = Thread(target=self.getPage(self.urls[0]))
+            t = Thread(target=self.getPage(self.urls[0][0]))
             t.deamon = True
             t.start()
             self.threads.append(t)
@@ -35,7 +35,7 @@ def main(ip):
         #try:
         localQueue = getUrlData(foundedURLs, ip)
         foundedURLs = []
-            #print(localQueue)
+        print(localQueue)
         crawler = Crawler(localQueue)
         crawler.crawl()
         while True:
@@ -45,7 +45,7 @@ def main(ip):
                 if not crawler.threads[i].isAlive():
                     del(crawler.threads[i])
                     break
-        #foundedURLs = crawler.foundedURLs
+        foundedURLs = crawler.foundedURLs
         #except Exception as e:
             #pass#print(e)
 
@@ -60,10 +60,10 @@ def getUrlData(data, ip):
                 postData = json.dumps(chunk)
                 requests.post(ip, postData)
 
-            postData = json.dumps(data)
-            doc = requests.post(ip + "/get", postData)
-            urls = doc.json()
-
+        postData = json.dumps(data)
+        doc = requests.post(ip + "/get", postData)
+        urls = doc.json()
+        
         return urls
     except Exception as e:
         print("error 2: " + str(e))
