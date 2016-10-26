@@ -35,17 +35,17 @@ def main(ip):
         #try:
         localQueue = getUrlData(foundedURLs, ip)
         break
-        #foundedURLs = []
+        foundedURLs = []
             #print(localQueue)
-        #3crawler = Crawler(localQueue)
-        #crawler.crawl()
-        #while True:
-        #    if len(crawler.threads) < 1:
-        #        break
-        #    for i in range(len(crawler.threads)):
-        #        if not crawler.threads[i].isAlive():
-        #            del(crawler.threads[i])
-        #            break
+        crawler = Crawler(localQueue)
+        crawler.crawl()
+        while True:
+            if len(crawler.threads) < 1:
+                break
+            for i in range(len(crawler.threads)):
+                if not crawler.threads[i].isAlive():
+                    del(crawler.threads[i])
+                    break
         #foundedURLs = crawler.foundedURLs
         #except Exception as e:
             #pass#print(e)
@@ -68,6 +68,6 @@ def getUrlData(data, ip):
         return urls
     except Exception as e:
         print("error 2: " + str(e))
-        
+
 if __name__ == "__main__":
     main(IP)
