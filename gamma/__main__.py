@@ -1,0 +1,65 @@
+import requests, json
+from threading import Thread
+from webPage import webPage
+
+IP = "http://localhost:420"
+
+class Crawler(object):
+    def __init__(self, urls):
+        self.urls = urls
+        self.foundedURLs = []
+
+    def crawl(self):
+        while len(self.urls) > 0:
+            t = Thread(target=self.getPage(self.urls[0]))
+            t.deamon = True
+            t.start()
+            del(self.urls[0])
+        return self.foundedURLs
+
+    def getPage(self, url):
+        page = webPage(url)
+        response = page.getPage() # ... get pageresponse,...
+        if not (response == None):
+            anchors = page.getAnchors() # ... and get hrefs from the response
+            for anchor in anchors: # Repeat the crawl function for every anchor
+                if anchor[0] not in (self.foundedURLs): # If the anchor is already in the database, ignore it
+                    self.foundedURLs.append(anchor[0])
+
+def main(ip):
+    localQueue = []
+    foundedURLs = ['HTTP://DMOZ.ORG/']
+    while True:
+        #try:
+        localQueue = getUrlData(foundedURLs, ip)
+        foundedURLs = []
+            #print(localQueue)
+        crawler = Crawler(localQueue)
+        foundedURLs = crawler.crawl()
+        #except Exception as e:
+            #pass#print(e)
+
+def getUrlData(data, ip):
+    print(data)
+    try:
+        mod = json.dumps(data)
+        doc = requests.post(ip, mod)
+    except Exception as e:
+        print("error 1: " + str(e))
+
+    try:
+        mod = json.dumps(data)
+        doc = requests.post(ip + "/get", mod)
+        urls = doc.json()
+    except Exception as e:
+        print("error 2: " + str(e))
+    
+    returnValue = []
+    for url in urls:
+        if len(url) < 1:
+            continue
+        returnValue.append(url[0])
+    return returnValue
+
+if __name__ == "__main__":
+    main(IP)
