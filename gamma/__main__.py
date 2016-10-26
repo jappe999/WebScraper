@@ -8,14 +8,15 @@ class Crawler(object):
     def __init__(self, urls):
         self.urls = urls
         self.foundedURLs = []
+        self.threads = []
 
     def crawl(self):
         while len(self.urls) > 0:
             t = Thread(target=self.getPage(self.urls[0]))
             t.deamon = True
             t.start()
+            self.threads.append(t)
             del(self.urls[0])
-        return self.foundedURLs
 
     def getPage(self, url):
         page = webPage(url)
@@ -35,7 +36,14 @@ def main(ip):
         foundedURLs = []
             #print(localQueue)
         crawler = Crawler(localQueue)
-        foundedURLs = crawler.crawl()
+        crawler.crawl()
+        while True:
+            if len(crawler.threads) < 1:
+                break
+            for i in range(len(crawler.threads)):
+                if not crawler.threads[i].isAlive():
+                    del(crawler.threads[i])
+        foundedURLs = crawler.foundedURLs
         #except Exception as e:
             #pass#print(e)
 
