@@ -43,6 +43,7 @@ def main(ip):
             for i in range(len(crawler.threads)):
                 if not crawler.threads[i].isAlive():
                     del(crawler.threads[i])
+                    break
         foundedURLs = crawler.foundedURLs
         #except Exception as e:
             #pass#print(e)
