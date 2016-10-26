@@ -35,7 +35,7 @@ def main(ip):
         #try:
         localQueue = getUrlData(foundedURLs, ip)
         foundedURLs = []
-            #print(localQueue)
+        print(localQueue)
         crawler = Crawler(localQueue)
         crawler.crawl()
         while True:
@@ -60,9 +60,9 @@ def getUrlData(data, ip):
                 postData = json.dumps(chunk)
                 requests.post(ip, postData)
 
-            postData = json.dumps(data)
-            doc = requests.post(ip + "/get", postData)
-            urls = doc.json()
+        postData = json.dumps(data)
+        doc = requests.post(ip + "/get", postData)
+        urls = doc.json()
 
         return urls
     except Exception as e:
