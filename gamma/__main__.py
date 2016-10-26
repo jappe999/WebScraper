@@ -65,34 +65,9 @@ def getUrlData(data, ip):
             doc = requests.post(ip + "/get", postData)
             urls = doc.json()
 
-            return urls
-    """try:
-        mod   = []
-        count = len(data) % 3
-        for x in data:
-            mod.append(x)
-            if len(mod) >= count:
-                mod = json.dumps(mod)
-                doc = requests.post(ip, mod)
-                mod = []
-    except Exception as e:
-        print("error 1: " + str(e))
-
-    try:
-        mod = json.dumps(data)
-        doc = requests.post(ip + "/get", mod)
-        urls = doc.json()
-    """
+        return urls
     except Exception as e:
         print("error 2: " + str(e))
-"""
-    returnValue = []
-    for url in urls:
-        if len(url) < 1:
-            continue
-        returnValue.append(url[0])
-    return returnValue
-"""
-
+        
 if __name__ == "__main__":
     main(IP)
