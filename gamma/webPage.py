@@ -26,6 +26,9 @@ class webPage(object):
         soup    = BeautifulSoup(text, 'html5lib') # Init BeautifulSoup with the response of the webpage
         results = []
         for link in soup('a'):
+            link = link.get('href')
+            if link == None:
+                continue
             anchor  = []
             """try:
                 href = link.get('href') if not link.get('href') == None else '#' # Get href out of anchor
