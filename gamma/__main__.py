@@ -63,7 +63,7 @@ def getUrlData(data, ip):
         postData = json.dumps(data)
         doc = requests.post(ip + "/get", postData)
         urls = doc.json()
-        
+
         return urls
     except Exception as e:
         print("error 2: " + str(e))
