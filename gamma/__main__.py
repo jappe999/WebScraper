@@ -30,11 +30,10 @@ class Crawler(object):
 def main(ip):
     localQueue = []
     foundedURLs = ['HTTP://DMOZ.ORG/']
-    foundedURLs = list(range(30))
+    #foundedURLs = list(range(30))
     while True:
         #try:
         localQueue = getUrlData(foundedURLs, ip)
-        break
         foundedURLs = []
             #print(localQueue)
         crawler = Crawler(localQueue)
