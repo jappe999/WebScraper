@@ -30,26 +30,43 @@ class Crawler(object):
 def main(ip):
     localQueue = []
     foundedURLs = ['HTTP://DMOZ.ORG/']
+    foundedURLs = list(range(30))
     while True:
         #try:
         localQueue = getUrlData(foundedURLs, ip)
-        foundedURLs = []
+        break
+        #foundedURLs = []
             #print(localQueue)
-        crawler = Crawler(localQueue)
-        crawler.crawl()
-        while True:
-            if len(crawler.threads) < 1:
-                break
-            for i in range(len(crawler.threads)):
-                if not crawler.threads[i].isAlive():
-                    del(crawler.threads[i])
-                    break
-        foundedURLs = crawler.foundedURLs
+        #3crawler = Crawler(localQueue)
+        #crawler.crawl()
+        #while True:
+        #    if len(crawler.threads) < 1:
+        #        break
+        #    for i in range(len(crawler.threads)):
+        #        if not crawler.threads[i].isAlive():
+        #            del(crawler.threads[i])
+        #            break
+        #foundedURLs = crawler.foundedURLs
         #except Exception as e:
             #pass#print(e)
 
 def getUrlData(data, ip):
     try:
+        chunks = []
+        while len(data) > 20:
+            chunks.append(data[:20])
+            del(data[:20])
+
+            for chunk in chunks:
+                postData = json.dumps(chunk)
+                requests.post(ip, postData)
+
+            postData = json.dumps(data)
+            doc = requests.post(ip + "/get", postData)
+            urls = doc.json()
+
+            return urls
+    """try:
         mod   = []
         count = len(data) % 3
         for x in data:
@@ -65,15 +82,17 @@ def getUrlData(data, ip):
         mod = json.dumps(data)
         doc = requests.post(ip + "/get", mod)
         urls = doc.json()
+    """
     except Exception as e:
         print("error 2: " + str(e))
-    
+"""
     returnValue = []
     for url in urls:
         if len(url) < 1:
             continue
         returnValue.append(url[0])
     return returnValue
+"""
 
 if __name__ == "__main__":
     main(IP)
