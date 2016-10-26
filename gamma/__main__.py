@@ -30,24 +30,23 @@ class Crawler(object):
 def main(ip):
     localQueue = []
     foundedURLs = ['HTTP://DMOZ.ORG/']
-    #foundedURLs = list(range(30))
     while True:
-        #try:
-        localQueue = getUrlData(foundedURLs, ip)
-        foundedURLs = []
-        print(localQueue)
-        crawler = Crawler(localQueue)
-        crawler.crawl()
-        while True:
-            if len(crawler.threads) < 1:
-                break
-            for i in range(len(crawler.threads)):
-                if not crawler.threads[i].isAlive():
-                    del(crawler.threads[i])
+        try:
+            localQueue = getUrlData(foundedURLs, ip)
+            foundedURLs = []
+            print(localQueue)
+            crawler = Crawler(localQueue)
+            crawler.crawl()
+            while True:
+                if len(crawler.threads) < 1:
                     break
-        foundedURLs = crawler.foundedURLs
-        #except Exception as e:
-            #pass#print(e)
+                for i in range(len(crawler.threads)):
+                    if not crawler.threads[i].isAlive():
+                        del(crawler.threads[i])
+                        break
+            foundedURLs = crawler.foundedURLs
+        except Exception as e:
+            pass#print(e)
 
 def getUrlData(data, ip):
     try:
