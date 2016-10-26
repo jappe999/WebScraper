@@ -49,10 +49,15 @@ def main(ip):
             #pass#print(e)
 
 def getUrlData(data, ip):
-    print(data)
     try:
-        mod = json.dumps(data)
-        doc = requests.post(ip, mod)
+        mod   = []
+        count = len(data) % 3
+        for x in data:
+            mod.append(x)
+            if len(mod) >= count:
+                mod = json.dumps(mod)
+                doc = requests.post(ip, mod)
+                mod = []
     except Exception as e:
         print("error 1: " + str(e))
 
