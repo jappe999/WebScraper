@@ -46,7 +46,7 @@ def main(ip):
                         break
             foundedURLs = crawler.foundedURLs
         except Exception as e:
-            pass#print(e)
+            print("error 1: " + str(e))
 
 def getUrlData(data, ip):
     try:
@@ -55,9 +55,9 @@ def getUrlData(data, ip):
             chunks.append(data[:20])
             del(data[:20])
 
-            for chunk in chunks:
-                postData = json.dumps(chunk)
-                requests.post(ip, postData)
+        for chunk in chunks:
+            postData = json.dumps(chunk)
+            requests.post(ip, postData)
 
         postData = json.dumps(data)
         doc = requests.post(ip + "/get", postData)
