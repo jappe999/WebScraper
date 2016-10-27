@@ -1,4 +1,4 @@
-import pymysql
+import pymysql, re
 from threading import Thread
 from sys import exit
 
@@ -41,7 +41,7 @@ class Database(object):
     def remove(self, obj):
         sql = "DELETE FROM queue WHERE url = '{}'"
         for line in obj:
-            url = line[0]
+            url = re.sub("[\(\)\']", "", line[0])
             t = Thread(target=self.execute(sql.format(url)))
             t.daemon = True
             t.start()

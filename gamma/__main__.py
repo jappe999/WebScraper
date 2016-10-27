@@ -29,7 +29,7 @@ class Crawler(object):
 
 def main(ip):
     localQueue = []
-    foundedURLs = ['HTTP://DMOZ.ORG/']
+    foundedURLs = ['http://dmoz.com']
     while True:
         try:
             localQueue = getUrlData(foundedURLs, ip)
@@ -50,6 +50,7 @@ def main(ip):
 
 def getUrlData(data, ip):
     try:
+        print(data)
         chunks = []
         while len(data) > 20:
             chunks.append(data[:20])
