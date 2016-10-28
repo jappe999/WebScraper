@@ -13,14 +13,14 @@ def main(host, port, numberOfLinks):
         request = client_connection.recv(4096)
         postData = ""
         urls = []
-        print(request)
+        #print(request)
         if re.search("(\[.*\])", str(request)):
             postData = re.search("\[(.*)\]", str(request)).group(1)
-            print(postData)
+            #print(postData)
             urltemp = postData.split(',')
             urlsnew = []
             for url in urltemp:
-                print(url)
+                #print(url)
                 url = re.sub("\s*\"\s*", "", url)
                 urls.append(url)
         else:

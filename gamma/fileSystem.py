@@ -7,7 +7,7 @@ def getMeta(page): #get meta from website
 
     try:
         desc  = soup.findAll(attrs={"name":"description"})
-        og    = soup.findAll(attrs={"property": "og:description"})
+        og    = soup.findAll(attrs={"property":"og:description"})
         keys  = soup.findAll(attrs={"name":"keywords"})
         title = soup.title
     except:

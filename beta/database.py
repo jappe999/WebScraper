@@ -20,7 +20,7 @@ class Database(object):
     def getQueue(self, numberOfLinks=10):
         self.cursor.execute("""SELECT url FROM queue LIMIT {}""".format(numberOfLinks))
         result = self.cursor.fetchall()
-        self.remove(result)
+        #self.remove(result)
         return result
 
 
@@ -55,4 +55,3 @@ class Database(object):
 
     def close(self):
         self.db.close()
-
