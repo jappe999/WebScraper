@@ -1,45 +1,39 @@
 from bs4 import BeautifulSoup
 import os, requests, re
-"""
-class FileSystemConnection(object):
-    \"""docstring for .\"""
-    def __init__(self):
-        pass
-"""
-def getMeta(url): #get meta from website
-    response = requests.get(url)
-    if response.status_code != 404:
-        page        = response.text.encode('utf-8')
-        soup        = BeautifulSoup(page, 'html5lib')
-        desc, keys  = '', ''
 
-        try:
-            desc = soup.findAll(attrs={"name":"description"})
-            og   = soup.findAll(attrs={"property": "og:description"})
-            keys = soup.findAll(attrs={"name":"keywords"})
-        except:
-            pass
-        
+def getMeta(page): #get meta from website
+    soup            = BeautifulSoup(page, 'html5lib')
+    desc, og, keys  = '', '', ''
+
+    try:
+        desc  = soup.findAll(attrs={"name":"description"})
+        og    = soup.findAll(attrs={"property": "og:description"})
+        keys  = soup.findAll(attrs={"name":"keywords"})
         title = soup.title
-        meta  = (desc, keys, og, title)
-        return str(meta)
+    except:
+        pass
 
-def getContents(url): #get content from website
+    meta  = (desc, keys, og, title)
+    return str(meta)
+
+def getContents(page): #get content from website
     content = False
     try:
-        response = requests.get(url)
-        if response.status_code != 404:
-            page     = response.text.encode('utf-8')
-            soup     = BeautifulSoup(page, 'html5lib')
+        page = page.encode('utf-8')
+    except Exception as e:
+        pass # No need to print this error, because that's useless
 
-            # kill all script and style elements
-            for script in soup(["script", "style"]):
-                script.extract()
+    try:
+        soup = BeautifulSoup(page, 'html5lib')
 
-            text = soup.get_text()
-            text = '\n'.join(chunk for chunk in text if chunk)
+        # kill all script and style elements
+        for script in soup(["script", "style"]):
+            script.extract()
 
-            content = text.encode('utf-8')
+        text = soup.get_text()
+        text = '\n'.join(chunk for chunk in text if chunk)
+
+        content = text.encode('utf-8')
     except UnicodeEncodeError:
         pass
     finally:
@@ -66,11 +60,3 @@ def trimPage(page):
     trimmedPage = page.replace('\\n', '').replace('\\t', '')
     trimmedPage = re.sub('[\s]{2,}', '', trimmedPage)
     return trimmedPage
-
-"""
-u = 'http://dmoz.com//Games/Video_Games'
-c = getContents(u)
-m = getMeta(u)
-setData(m, u, 'Meta')
-setData(c, u, 'Content')
-"""

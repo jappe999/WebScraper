@@ -15,7 +15,10 @@ class webPage(object):
         response = ''
         try:
             response = requests.get(self.url)
-            response = response.text
+            if response.status_code != 404:
+                response = response.text.encode('utf-8')
+            else:
+                response = None
         except Exception as e:
             print(e)
 
@@ -49,7 +52,7 @@ class webPage(object):
 
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
-            
+
             anchor.append(href)
             anchor.append(text)
             results.append(anchor) # Put content in array

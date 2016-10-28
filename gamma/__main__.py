@@ -1,6 +1,7 @@
 import requests, json
 from threading import Thread
 from webPage import webPage
+from fileSystem import *
 
 IP = "http://localhost:420"
 
@@ -18,9 +19,18 @@ class Crawler(object):
             self.threads.append(t)
             del(self.urls[0])
 
+    # Set page in filesystem
+    def setPage(self, u, p):
+        c = getContents(p)
+        m = getMeta(p)
+        setData(m, u, 'Meta')
+        setData(c, u, 'Content')
+
     def getPage(self, url):
         page = webPage(url)
         response = page.getPage() # ... get pageresponse,...
+        self.setPage(url, response)
+
         if not (response == None):
             anchors = page.getAnchors() # ... and get hrefs from the response
             for anchor in anchors: # Repeat the crawl function for every anchor
