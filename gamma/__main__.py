@@ -29,13 +29,15 @@ class Crawler(object):
     def getPage(self, url):
         page = webPage(url)
         response = page.getPage() # ... get pageresponse,...
-        self.setPage(url, response)
+        try:
+            self.setPage(url, response)
+        except Exception as e:
+            print(e)
 
         if not (response == None):
             anchors = page.getAnchors() # ... and get hrefs from the response
             for anchor in anchors: # Repeat the crawl function for every anchor
-                if anchor[0] not in (self.foundedURLs): # If the anchor is already in the database, ignore it
-                    self.foundedURLs.append(anchor[0])
+                self.foundedURLs.append(anchor[0])
 
 def main(ip):
     localQueue = []
