@@ -64,9 +64,10 @@ def main(ip):
 def getUrlData(data, ip):
     try:
         chunks = []
-        while len(data) > 20:
-            chunks.append(data[:20])
-            del(data[:20])
+        if len(data) > 20:
+            while len(data) > 20:
+                chunks.append(data[:20])
+                del(data[:20])
 
         for chunk in chunks:
             postData = json.dumps(chunk)
@@ -75,6 +76,7 @@ def getUrlData(data, ip):
         postData = json.dumps(data)
         doc = requests.post(ip + "/get", postData)
         urls = doc.json()
+        print(urls)
 
         return urls
     except Exception as e:
