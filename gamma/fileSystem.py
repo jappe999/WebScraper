@@ -48,7 +48,7 @@ def createFolder(directory):
         return False
 
 def setData(html, url, data_type='Content'):
-    directory = 'Data/' + data_type + '/' + re.sub('^(http://|https://|www\.)', '', url)
+    directory = 'Data/' + data_type + '/' + re.sub('^(http://|https://)(www\.)?', '', url)
     createFolder(directory)
     page = trimPage(html)
     file = 'main.meta' if data_type == 'Meta' else 'main.txt'

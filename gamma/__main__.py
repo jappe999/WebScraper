@@ -2,6 +2,7 @@ import requests, json
 from threading import Thread
 from webPage import webPage
 from fileSystem import *
+from urllib.parse import quote
 
 IP = "http://localhost:420"
 
@@ -20,7 +21,9 @@ class Crawler(object):
             del(self.urls[0])
 
     # Set page in filesystem
-    def setPage(self, u, p):
+    def setPage(self, url, p):
+        u = re.sub('^(http://|https://)(www\.)?', '', url)
+        u = quote(u)
         c = getContents(p)
         m = getMeta(p)
         setData(m, u, 'Meta')
@@ -43,7 +46,7 @@ class Crawler(object):
 def main(ip):
     localQueue = []
     # Three sources from where to start
-    foundURLs = ['http://dmoz.com/', 'http://startpagina.nl/', 'http://w3schools.com/']
+    foundURLs = ['http://dmoz.com/']#, 'http://startpagina.nl/', 'http://w3schools.com/']
     while True:
         try:
             localQueue = getUrlData(foundURLs, ip)
