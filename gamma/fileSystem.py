@@ -44,7 +44,8 @@ def createFolder(directory):
         if not os.path.exists(directory):
             os.makedirs(directory)
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 def setData(html, url, data_type='Content'):
