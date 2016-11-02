@@ -1,0 +1,5 @@
+start cmd /c python "C:\Users\Gebruiker-01\Desktop\backup\WebScraper (git)\beta"
+start cmd /c python "C:\Users\Gebruiker-01\Desktop\backup\WebScraper (git)\gamma"
+start cmd /c python "C:\Users\Gebruiker-01\Desktop\backup\WebScraper (git)\gamma"
+start cmd /c python "C:\Users\Gebruiker-01\Desktop\backup\WebScraper (git)\gamma"
+start cmd /c python "C:\Users\Gebruiker-01\Desktop\backup\WebScraper (git)\gamma"

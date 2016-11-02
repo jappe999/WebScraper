@@ -4,7 +4,7 @@ from webPage import webPage
 from fileSystem import *
 from urllib.parse import quote
 
-IP = "http://localhost:420"
+IP = "http://10.13.1.152:420"
 
 class Crawler(object):
     def __init__(self, urls):
