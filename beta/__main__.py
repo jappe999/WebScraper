@@ -15,7 +15,7 @@ def grim_reaper(signum, frame):
         if pid == 0:  # no more zombies
             return
 
-def handle():
+def handle(client_connection, numberOfLinks):
     request = client_connection.recv(4096)
     request = request.decode()
     postData = ""
@@ -28,12 +28,12 @@ def handle():
         urlsnew = []
         for url in urltemp:
             #print(url)
-            url = re.sub("\s*\"\s*", "", url)
+            url = re.sub("\s*\"\s*", " ", url)
             urls.append(url)
     else:
         postData = "No POST-data received"
 
-    database = Database('root', '1q2w3e4r!@#$', 'beta')
+    database = Database('root', '42069blazeIt', 'beta')
     if database.setQueue(urls):
         print(Fore.GREEN + "Added", urls, "to queue.")
         print(Style.RESET_ALL)
@@ -71,7 +71,7 @@ def main(host, port, numberOfLinks):
         pid = os.fork()
         if pid == 0:  # child
             listen_socket.close()  # close child copy
-            handle(client_connection)
+            handle(client_connection, numberOfLinks)
             client_connection.close()
             os._exit(0)
         else:  # parent

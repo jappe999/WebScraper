@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import requests, json
 from threading import Thread
 from webPage import webPage
 from fileSystem import *
 from urllib.parse import quote
 
-IP = "http://10.13.1.152:420"
+IP = "http://10.13.1.116:420"
 
 class Crawler(object):
     def __init__(self, urls):
