@@ -1,4 +1,4 @@
-import pymysql
+import pymysql, re
 from threading import Thread
 from sys import exit
 
@@ -18,7 +18,7 @@ class Database(object):
             exit()
 
     def getQueue(self, numberOfLinks=10):
-        self.cursor.execute("""SELECT url FROM queue LIMIT {}""".format(numberOfLinks))
+        self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT {};".format(numberOfLinks))
         result = self.cursor.fetchall()
         self.remove(result)
         return result
@@ -26,7 +26,7 @@ class Database(object):
 
     def writeToDb(self, url):
         try:
-            self.cursor.execute("INSERT INTO queue (url) VALUES ('{}')".format(url))
+            self.cursor.execute("INSERT INTO queue (url, visited) VALUES ('{}', '0');".format(url))
             self.db.commit()
         except Exception as e:
             print(e)
@@ -39,15 +39,15 @@ class Database(object):
         return True
 
     def remove(self, obj):
-        sql = "DELETE FROM queue WHERE url = '{}'"
+        sql = "UPDATE queue SET visited='1' WHERE url = '{}';"
         for line in obj:
-            url = line[0]
+            url = re.sub("[\(\)\']", "", line[0])
             t = Thread(target=self.execute(sql.format(url)))
             t.daemon = True
             t.start()
 
     def clear(self):
-        self.cursor.execute("DELETE FROM queue")
+        self.cursor.execute("DELETE FROM queue;")
 
     def execute(self, command):
         self.cursor.execute(command)
@@ -55,4 +55,3 @@ class Database(object):
 
     def close(self):
         self.db.close()
-
