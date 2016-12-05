@@ -41,7 +41,7 @@ class Database(object):
     def remove(self, obj):
         sql = "UPDATE queue SET visited='1' WHERE url = '{}';"
         for line in obj:
-            url = re.sub("[\(\)\']", "", line[0])
+            url = re.sub("[\']", "", line[0])
             t = Thread(target=self.execute(sql.format(url)))
             t.daemon = True
             t.start()
