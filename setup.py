@@ -14,6 +14,7 @@ setup(name='WebScraper',
         ],
         'pymysql': ['*'],
         'html5lib': ['*'],
-        'requests': ['*']
+        'requests': ['*'],
+        'colorama': ['*']
       }
      )
