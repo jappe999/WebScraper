@@ -18,11 +18,11 @@ class Database(object):
             exit()
 
     def fetch(self, number):
-        self.cursor.execute("SELECT ID FROM queue WHERE visited = '1' AND indexed = '0' LIMIT {};".format(number))
+        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = '1' AND indexed = '0' LIMIT {};".format(number))
         results = self.cursor.fetchall()
         print(results)
-        for result in results:
-            self.execute("UPDATE queue SET indexed = '1' WHERE ID = {};".format(result))
+        #for result in results:
+        #    self.execute("UPDATE queue SET indexed = '1' WHERE ID = {};".format(result))
         return results
 
 
