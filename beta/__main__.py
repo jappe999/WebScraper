@@ -28,7 +28,7 @@ def handle(client_connection, numberOfLinks):
         urlsnew = []
         for url in urltemp:
             #print(url)
-            url = re.sub("\s*\"\s*", " ", url)
+            url = re.sub("\s*\"\s*", "", url)
             urls.append(url)
     else:
         postData = "No POST-data received"
