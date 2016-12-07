@@ -18,7 +18,7 @@ class Database(object):
             exit()
 
     def getQueue(self, numberOfLinks=10):
-        self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT {};".format(numberOfLinks))
+        self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT ?;", numberOfLinks)
         result = self.cursor.fetchall()
         self.remove(result)
         return result
@@ -26,7 +26,7 @@ class Database(object):
 
     def writeToDb(self, url):
         try:
-            self.cursor.execute("INSERT INTO queue (url, visited) VALUES ('{}', '0');".format(url))
+            self.cursor.execute("INSERT INTO queue (url, visited) VALUES (?, '0');", url)
             self.db.commit()
         except Exception as e:
             print(e)
@@ -38,11 +38,17 @@ class Database(object):
             t.start()
         return True
 
+	def updateQueue(self, url):
+		try:
+			self.cursor.execute("UPDATE queue SET visited='1' WHERE url = ?;", url)
+			self.db.commit()
+		except Exception as e:
+			print(e)
+		
     def remove(self, obj):
-        sql = "UPDATE queue SET visited='1' WHERE url = '{}';"
         for line in obj:
-            url = re.sub("[\(\)\']", "", line[0])
-            t = Thread(target=self.execute(sql.format(url)))
+            url = line[0]
+            t = Thread(target=self.updateQueue(sql, url))
             t.daemon = True
             t.start()
 
