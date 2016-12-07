@@ -38,12 +38,12 @@ class Database(object):
             t.start()
         return True
 
-	def updateQueue(self, url):
-		try:
-			self.cursor.execute("UPDATE queue SET visited='1' WHERE url = ?;", url)
-			self.db.commit()
-		except Exception as e:
-			print(e)
+    def updateQueue(self, url):
+        try:
+            self.cursor.execute("UPDATE queue SET visited='1' WHERE url = ?;", url)
+            self.db.commit()
+        except Exception as e:
+            print(e)
 		
     def remove(self, obj):
         for line in obj:
