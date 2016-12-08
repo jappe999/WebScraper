@@ -18,19 +18,21 @@ class Database(object):
             exit()
 
     def fetch(self, number):
-        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = '1' AND indexed = '0' LIMIT {};".format(number))
+        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed IS NULL LIMIT {};".format(number))
         results = self.cursor.fetchall()
-        print(results)
-        for result in results:
-            t = Thread(target=self.update(result[0]))
-            t.daemon = True
-            t.start()
         return results
 
 
     def update(self, id):
         try:
             self.cursor.execute("UPDATE queue SET indexed = '1' WHERE ID = {};".format(id))
+            self.db.commit()
+        except Exception as e:
+            print(e)
+            
+    def addKeywords(self, id_url, keywords):
+        try:
+            self.cursor.execute("INSERT INTO keywords (id_url, keywords) values ({}, {});".format(id_url, keywords))
             self.db.commit()
         except Exception as e:
             print(e)
