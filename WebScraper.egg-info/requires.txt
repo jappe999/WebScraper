@@ -1,0 +1,5 @@
+pymysql
+html5lib
+bs4
+colorama
+requests
