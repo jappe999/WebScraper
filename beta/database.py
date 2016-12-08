@@ -26,8 +26,8 @@ class Database(object):
         self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT " + str(numberOfLinks) + ";")
         result = self.cursor.fetchall()
         self.remove(result)
-		for i in range(len(result)):
-			result[i] = unquote(result[i]).decode('utf-8')
+        for i in range(len(result)):
+            result[i] = unquote(result[i]).decode('utf-8')
         return result
 
 
