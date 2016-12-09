@@ -14,27 +14,32 @@ class Database(object):
                       )
             self.cursor = self.db.cursor()
         except Exception as e:
+            print("Error 0x01:")
             print(e)
             exit()
 
     def fetch(self, number):
-        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed IS NULL LIMIT {};".format(number))
+        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed IS NULL LIMIT " + str(number) + ";")
         results = self.cursor.fetchall()
         return results
 
 
     def update(self, id):
         try:
-            self.cursor.execute("UPDATE queue SET indexed = '1' WHERE ID = {};".format(id))
+            self.cursor.execute("UPDATE queue SET indexed = '1' WHERE ID = " + str(id) + ";")
             self.db.commit()
         except Exception as e:
+            print("Error 0x02:")
             print(e)
-            
+
     def addKeywords(self, id_url, keywords):
         try:
-            self.cursor.execute("INSERT INTO keywords (id_url, keywords) values ({}, {});".format(id_url, keywords))
-            self.db.commit()
+            for keyword in keywords:
+                print(keyword)
+                self.cursor.execute("INSERT INTO keywords (id_url, keywords) values (" + str(id_url) + ", '" + keyword + "');")
+                self.db.commit()
         except Exception as e:
+            print("Error 0x03:")
             print(e)
 
     def setQueue(self, obj):

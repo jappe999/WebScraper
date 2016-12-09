@@ -6,10 +6,10 @@
 import pymysql.cursors
 
 # Connect to the database
-connection = pymysql.connect(host='10.13.1.206',
+connection = pymysql.connect(host='localhost',
                              port= 3306,
                              user='root',
-                             password='42069blazeIT',
+                             password='42069blazeIt',
                              db='beta',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -17,9 +17,9 @@ connection = pymysql.connect(host='10.13.1.206',
 try:
     with connection.cursor() as cursor:
         # Read a single record
-        sql = "SELECT * FROM 'queue' WHERE 'visited' = 1 AND 'indexed' NOT 1 "
+        sql = "SELECT * FROM queue WHERE visited = 1 AND indexed is NULL limit 20;"
         cursor.execute(sql)
-        result = cursor.fetchone()
+        result = cursor.fetchall()
         print(result)
 finally:
     connection.close()
