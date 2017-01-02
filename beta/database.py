@@ -1,7 +1,7 @@
-import pymysql
+import pymysql, re
 from threading import Thread
 from colorama import init, Fore, Back, Style
-from urllib2 import quote, unquote
+from urllib.parse import quote, unquote
 from sys import exit
 
 class Database(object):
@@ -25,10 +25,12 @@ class Database(object):
     def getQueue(self, numberOfLinks=10):
         self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT " + str(numberOfLinks) + ";")
         result = self.cursor.fetchall()
+        response = []
         self.remove(result)
         for i in range(len(result)):
-            result[i] = unquote(result[i]).decode('utf-8')
-        return result
+            response.append(unquote(result[i][0]))
+            response[i] = re.sub(r'\\', '', response[i])
+        return response
 
 
     def writeToDb(self, url):
@@ -66,8 +68,8 @@ class Database(object):
             t.daemon = True
             t.start()
 
-    def clear(self):
-        self.cursor.execute("DELETE FROM queue;")
+#    def clear(self):
+#        self.cursor.execute("DELETE FROM queue;")
 
     def execute(self, command):
         self.cursor.execute(command)
