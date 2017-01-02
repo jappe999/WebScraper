@@ -1,4 +1,4 @@
-import pymysql, re
+import pymysql, re, time
 from threading import Thread
 from colorama import init, Fore, Back, Style
 from urllib.parse import quote, unquote
@@ -29,7 +29,7 @@ class Database(object):
         self.remove(result)
         for i in range(len(result)):
             response.append(unquote(result[i][0]))
-            response[i] = re.sub(r'\\', '', response[i])
+            response[i] = re.sub(r'(\\)*$', '', response[i])
         return response
 
 
@@ -50,20 +50,24 @@ class Database(object):
         return True
 
     def escapeURL(self, url):
-        return quote(url.encode("utf-8"))
+        return re.sub(r'(\\)*$', '', url)
+#        return quote(url.encode("utf-8"))
 
     def updateQueue(self, url):
         try:
-            self.cursor.execute("UPDATE queue SET visited='1' WHERE url = '" +  self.escapeURL(url) + "';")
+#            print('Escaped: '+self.escapeURL(url))
+#            time.sleep(10)
+            self.cursor.execute("UPDATE queue SET visited='1' WHERE url = '" + self.escapeURL(url) + "';")
             self.db.commit()
         except Exception as e:
             print(Fore.RED + "BETA error 0x3:")
             print(e)
             print(Style.RESET_ALL)
-		
+
     def remove(self, obj):
         for line in obj:
             url = line[0]
+#            print(url)
             t = Thread(target=self.updateQueue(url))
             t.daemon = True
             t.start()
