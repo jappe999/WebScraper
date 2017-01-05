@@ -6,7 +6,7 @@ from webPage import webPage
 from fileSystem import *
 from urllib.parse import quote
 
-IP = "http://10.13.1.206:420"
+IP = "http://10.0.2.15:420"
 
 class Crawler(object):
     def __init__(self, urls):
@@ -16,7 +16,7 @@ class Crawler(object):
 
     def crawl(self):
         while len(self.urls) > 0:
-            t = Thread(target=self.getPage(self.urls[0][0]))
+            t = Thread(target=self.getPage(self.urls[0]))
             t.deamon = True
             t.start()
             self.threads.append(t)
