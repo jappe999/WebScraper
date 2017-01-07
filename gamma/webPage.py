@@ -13,15 +13,15 @@ class webPage(object):
         self.blackList = []
         self.useWhiteList = False
         self.whiteList = []
-		
+        
         blackListFile = open("blacklist.txt", "r")
         whiteListFile = open("whitelist.txt", "r")
-		
+        
         if(whiteListFile.read()[:3] != "123"):
             self.useWhiteList = True
             for whiteListEntry in whiteList:
                 self.whiteList.append(whiteListEntry)
-		
+        
         for blackListEntry in blackListFile:
             self.blackList.append(blackListEntry)
 
@@ -47,7 +47,7 @@ class webPage(object):
 
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
-			
+            
             if self.isInBlackList(href) or not isInWhiteList(href):
                 continue
             
@@ -65,7 +65,7 @@ class webPage(object):
             if testURL == blackListEntry:
                 return True
         return False
-	
+    
     def isInWhiteList(link):
         if not self.useWhiteList:
             return True
