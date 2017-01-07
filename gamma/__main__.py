@@ -46,6 +46,7 @@ class Crawler(object):
                 self.foundURLs.append(anchor[0])
 
 def main(ip):
+    localQueue = []
     while True:
         try:
             foundURLs = []
