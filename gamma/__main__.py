@@ -24,12 +24,12 @@ class Crawler(object):
 
     # Set page in filesystem
     def setPage(self, url, p):
-        u = re.sub('^(http://|https://)(www\.)?', '', url)
-        u = quote(u)
-        c = getContents(p)
-        m = getMeta(p)
-        setData(m, u, 'Meta')
-        setData(c, u, 'Content')
+        url = re.sub('^(http://|https://)?', '', url)
+        url = quote(u)
+        content = getContents(p)
+        meta = getMeta(p)
+        setData(meta, url, 'Meta')
+        setData(content, url, 'Content')
 
     def getPage(self, url):
         page = webPage(url)
@@ -46,9 +46,6 @@ class Crawler(object):
                 self.foundURLs.append(anchor[0])
 
 def main(ip):
-    localQueue = []
-    # Three sources from where to start
-    foundURLs = ['http://dmoz.com/']#, 'http://startpagina.nl/', 'http://w3schools.com/']
     while True:
         try:
             localQueue = getUrlData(foundURLs, ip)

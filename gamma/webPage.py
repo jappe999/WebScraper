@@ -11,30 +11,27 @@ class webPage(object):
     def __init__(self, url):
         self.url = url
         self.blackList = []
-		self.useWhiteList = False
+        self.useWhiteList = False
         self.whiteList = []
 		
         blackListFile = open("blacklist.txt", "r")
-		whiteListFile = open("whitelist.txt", "r")
+        whiteListFile = open("whitelist.txt", "r")
 		
-		if(whiteListFile.read()[:3] != "123"):
-			self.useWhiteList = True
-			for whiteListEntry in whiteList:
-				self.whiteList.append(whiteListEntry)
+        if(whiteListFile.read()[:3] != "123"):
+            self.useWhiteList = True
+            for whiteListEntry in whiteList:
+                self.whiteList.append(whiteListEntry)
 		
         for blackListEntry in blackListFile:
             self.blackList.append(blackListEntry)
 
     def getPage(self):
-        response = ''
         try:
-            response = requests.get(self.url)
-            if response.status_code != 404:
-                response = response.text.encode('utf-8')
-            else:
-                response = ''
+            responseFromServer = requests.get(self.url)
+            if responseFromServer.status_code != 404:
+                response = responseFromServer.text.encode('utf-8')
         except Exception as e:
-            print(e)
+            print("Error loading the folowing page: " + self.url + "The error returned is:\n" + e)
 
         return response
 
@@ -51,10 +48,10 @@ class webPage(object):
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
 			
-			if self.isInBlackList(href) or !isInWhiteList(href):
-				continue
+            if self.isInBlackList(href) or !isInWhiteList(href):
+                continue
             
-			anchor.append(href)
+            anchor.append(href)
             anchor.append(text)
             results.append(anchor) # Put content in array
 
@@ -69,9 +66,9 @@ class webPage(object):
                 return True
         return False
 	
-	def isInWhiteList(link):
-		if not self.useWhiteList:
-			return True
+    def isInWhiteList(link):
+        if not self.useWhiteList:
+            return True
         testURLre = re.search("https?:\/\/([a-z|A-Z|0-9]*\.?)*", link)
         testURL = testURLre.group(0)
         
