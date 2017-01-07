@@ -48,7 +48,7 @@ class webPage(object):
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
 			
-            if self.isInBlackList(href) or !isInWhiteList(href):
+            if self.isInBlackList(href) or not isInWhiteList(href):
                 continue
             
             anchor.append(href)
