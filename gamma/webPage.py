@@ -10,6 +10,11 @@ from urllib.parse import urljoin
 class webPage(object):
     def __init__(self, url):
         self.url = url
+        self.blackList = []
+        
+        blackListFile = open("blacklist.txt", "r")
+        for blackListEntry in blackListFile:
+            self.blackList.append(blackListEntry)
 
     def getPage(self):
         response = ''
@@ -39,6 +44,16 @@ class webPage(object):
 
             anchor.append(href)
             anchor.append(text)
-            results.append(anchor) # Put content in array
+            if !self.isInBlackList(anchor):
+                results.append(anchor) # Put content in array
 
         return results
+
+    def isInBlackList(link):
+        testURLre = re.search("https?:\/\/([a-z|A-Z|0-9]*\.?)*", link)
+        testURL = testURLre.group(0)
+        
+        for blackListEntry in self.blackList:
+            if testURL == blackListEntry:
+                return True
+        return False
