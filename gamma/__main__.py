@@ -49,7 +49,7 @@ def main(ip):
     while True:
         try:
             foundURLs = []
-			crawler = Crawler(localQueue)
+            crawler = Crawler(localQueue)
             crawler.crawl()
             while True:
                 if len(crawler.threads) < 1:
