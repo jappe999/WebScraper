@@ -11,8 +11,17 @@ class webPage(object):
     def __init__(self, url):
         self.url = url
         self.blackList = []
-        
+		self.useWhiteList = False
+        self.whiteList = []
+		
         blackListFile = open("blacklist.txt", "r")
+		whiteListFile = open("whitelist.txt", "r")
+		
+		if(whiteListFile.read()[:3] != "123"):
+			self.useWhiteList = True
+			for whiteListEntry in whiteList:
+				self.whiteList.append(whiteListEntry)
+		
         for blackListEntry in blackListFile:
             self.blackList.append(blackListEntry)
 
@@ -41,11 +50,13 @@ class webPage(object):
 
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
-
-            anchor.append(href)
+			
+			if self.isInBlackList(href) or !isInWhiteList(href):
+				continue
+            
+			anchor.append(href)
             anchor.append(text)
-            if !self.isInBlackList(anchor):
-                results.append(anchor) # Put content in array
+            results.append(anchor) # Put content in array
 
         return results
 
@@ -55,5 +66,16 @@ class webPage(object):
         
         for blackListEntry in self.blackList:
             if testURL == blackListEntry:
+                return True
+        return False
+	
+	def isInWhiteList(link):
+		if not self.useWhiteList:
+			return True
+        testURLre = re.search("https?:\/\/([a-z|A-Z|0-9]*\.?)*", link)
+        testURL = testURLre.group(0)
+        
+        for whiteListEntry in self.whiteList:
+            if testURL == whiteListEntry:
                 return True
         return False
