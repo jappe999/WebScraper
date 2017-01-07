@@ -48,9 +48,8 @@ class Crawler(object):
 def main(ip):
     while True:
         try:
-            localQueue = getUrlData(foundURLs, ip)
             foundURLs = []
-            crawler = Crawler(localQueue)
+			crawler = Crawler(localQueue)
             crawler.crawl()
             while True:
                 if len(crawler.threads) < 1:
@@ -60,6 +59,8 @@ def main(ip):
                         del(crawler.threads[i])
                         break
             foundURLs = crawler.foundURLs
+			localQueue = getUrlData(foundURLs, ip)
+            
         except Exception as e:
             print("error 1: " + str(e))
 
