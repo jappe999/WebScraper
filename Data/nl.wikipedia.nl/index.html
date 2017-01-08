@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<title>Wikipedia NL</title>
+	<link rel="shortcut icon" href="wikipedia-favicon.png" />
+	<link rel="stylesheet" type="text/css" media="screen" href="country-portal.css" />
+	<script src="country-portal.js" type="text/javascript"></script>
+</head>
+
+<!--<body id="wikipedia-nl" onload=populate()>-->
+<body>
+	<div>
+		<script>
+//			dondiv()
+			mb('nl','left column red-bg field','Welkom!','Wikipedia is een meertalige encyclopedie, waarvan de inhoud vrij beschikbaar is. Iedereen kan hier kennis toevoegen!','Wikipedia in het Nederlands')
+			mb('fy','right column yellow-bg field','Wolkom!','Wikipedy is in meartalige ensyklopedy dêr\'t de ynhâld frij fan beskikber is. Eltsenien kin syn as har witten hjir tafoegje!','Wikipedy yn it Frysk')
+		</script>
+
+		<a id="logo" href="http://www.wikipedia.org" onclick="goother(this)"></a>
+
+		<script>
+			mb('nds-nl','left column green-bg field','Welkom, moi!','Wikipedie is een meertaolige encyclopedie, waorvan de inhold vrie beschikbaor is en waor iederene an mitwarken kan!','Wikipedie in \'t Nedersaksisch')
+			mb('li','right column purple-bg field','Wilkóm!','Wikipedia is ein encyclopedie in väöl sjpraoke, woevan de inhaud vrie besjikbaar is. Jederein kint zien kènnis toevoge!','Wikipedia op \'t Limburgs')
+		</script>
+		<br /><br />
+
+		<form action="http://www.wikipedia.org/search-redirect.php" id="searchform" TARGET="_new">
+			<input type="text" name="search" size="20" id="searchInput" style="vertical-align: top; padding: 0; margin: 0; font-size: 0.9em;" />
+			<select name="language" style="vertical-align: top; padding: 0; margin: 0 0.4em;" >
+				<option value="nl" lang="nl" xml:lang="nl" selected="selected">Nederlands</option>
+				<option value="fy" lang="fy" xml:lang="fy">Frysk</option>
+				<option value="nds-nl" lang="nds-nl" xml:lang="nds-nl">Nedersaksisch</option>
+				<option value="li" lang="li" xml:lang="li">Limburgs</option>
+			</select>
+			<input type="submit" name="go" value="  >  " class="searchButton" style="vertical-align: top; padding: 0; margin: 0; font-size: 0.9em;" />
+			<input type="hidden" name="go" value="Go" /> <BR><BR>
+		</form>
+
+		<div id="others">
+			<p>
+			<script>
+				ol1('Wikipedia','in andere talen')
+				ol1('Wikipedia','yn oare talen')
+				ol1('Wikipedia','in aandere taolen')
+				ol1('Wikipedia','op anger tale')
+			</script>
+
+			<p>
+			<script>
+				ol2('af','Afrikaans')
+				ol2('ar','&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;')
+				ol2('de','Deutsch')
+				ol2('en','English')
+				ol2('eo','Esperanto')
+				ol2('fr','Français')
+				ol2('id','Bahasa Indonesia')
+				ol2('ms','Bahasa Melayu')
+				ol2('nds','Plattdüütsch')
+				ol2('tr','Türkçe')
+				ol2('zea','Zeêuws')
+			</script>
+		</div>
+
+		<div id="footer">
+			<div class="left banner">
+				<a href="http://wikimediafoundation.org/" onclick="goother(this)"><img src="http://nl.wikipedia.org/images/wikimedia-button.png" alt="Wikimedia Foundation"/></a>
+			</div>
+
+			<div class="right banner" style="font-size: 95%;letter-spacing:0.1em">
+				<a href="http://nl.wikimedia.org/" onclick="goother(this)"><span class="hello">Wikimedia</span><br>Nederland</a>
+			</div>
+		</div>
+	</div>
+	<a href="http://www.statcounter.com/" target="_blank"><img src="http://c34.statcounter.com/3154583/0/c0f83cbc/0/" alt="free stats" border="0"></a>
+</body>
+</html>

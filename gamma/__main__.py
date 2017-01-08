@@ -6,7 +6,7 @@ from webPage import webPage
 from fileSystem import *
 from urllib.parse import quote
 
-IP = "http://10.0.2.15:420"
+IP = "http://localhost:420"
 
 class Crawler(object):
     def __init__(self, urls):
@@ -23,13 +23,11 @@ class Crawler(object):
             del(self.urls[0])
 
     # Set page in filesystem
-    def setPage(self, url, p):
+    def setPage(self, url, page):
         url = re.sub('^(http://|https://)?', '', url)
-        url = quote(u)
-        content = getContents(p)
-        meta = getMeta(p)
-        setData(meta, url, 'Meta')
-        setData(content, url, 'Content')
+        url = quote(url)
+
+        setData(page, url)
 
     def getPage(self, url):
         page = webPage(url)
@@ -47,9 +45,13 @@ class Crawler(object):
 
 def main(ip):
     localQueue = []
+    foundURLs = []
     while True:
+        num -= 1
         try:
+            localQueue = getUrlData(foundURLs, ip)            
             foundURLs = []
+
             crawler = Crawler(localQueue)
             crawler.crawl()
             while True:
@@ -60,7 +62,6 @@ def main(ip):
                         del(crawler.threads[i])
                         break
             foundURLs = crawler.foundURLs
-            localQueue = getUrlData(foundURLs, ip)
             
         except Exception as e:
             print("error 1: " + str(e))

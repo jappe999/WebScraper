@@ -1,2 +1,4 @@
-http://nl.wikipedia.nl
-https://nl.wikipedia.nl
+http://nl.wikipedia.org
+https://nl.wikipedia.org
+http://www.mediawiki.org
+https://www.mediawiki.org
