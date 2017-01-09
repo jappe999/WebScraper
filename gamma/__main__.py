@@ -47,7 +47,7 @@ def main(ip):
     localQueue = []
     foundURLs = []
     while True:
-        num -= 1
+        #num -= 1
         try:
             localQueue = getUrlData(foundURLs, ip)            
             foundURLs = []

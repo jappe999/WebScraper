@@ -1,6 +1,6 @@
-./Data
-./WebScraper.egg-info
-./beta_backup20161202.sql
-./build
-./dist
+Data
+WebScraper.egg-info
+beta_backup20161202.sql
+build
+dist
 *.pyc

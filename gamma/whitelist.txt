@@ -2,3 +2,5 @@ http://nl.wikipedia.org
 https://nl.wikipedia.org
 http://www.mediawiki.org
 https://www.mediawiki.org
+http://als.wikipedia.org
+https://als.wikipedia.org

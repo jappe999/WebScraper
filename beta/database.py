@@ -26,6 +26,7 @@ class Database(object):
         self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT " + str(numberOfLinks) + ";")
         result = self.cursor.fetchall()
         response = []
+    
         self.remove(result)
         for i in range(len(result)):
             response.append(unquote(result[i][0]))
@@ -35,7 +36,7 @@ class Database(object):
 
     def writeToDb(self, url):
         try:
-            self.cursor.execute("INSERT INTO queue (url, visited) VALUES ('" + self.escapeURL(url) + "', '0');")
+            self.cursor.execute("INSERT INTO queue (url, visited, unixtime) VALUES ('" + self.escapeURL(url) + "', '0', '" + str(int(time.time())) + "');")
             self.db.commit()
         except Exception as e:
             print(Fore.RED + "BETA error 0x2:")
