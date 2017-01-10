@@ -58,7 +58,7 @@ class Database(object):
         try:
 #            print('Escaped: '+self.escapeURL(url))
 #            time.sleep(10)
-            self.cursor.execute("UPDATE queue SET visited='1' WHERE url = '" + self.escapeURL(url) + "';")
+            self.cursor.execute("UPDATE queue SET visited='1', unixtime='" + str(int(time.time())) + " ' WHERE url = '" + self.escapeURL(url) + "';")
             self.db.commit()
         except Exception as e:
             print(Fore.RED + "BETA error 0x3:")
