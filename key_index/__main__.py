@@ -18,7 +18,7 @@ def main(number):
                 path = '/home/user/Desktop/WebScraper/Data/' + url + '/index.html'
                 blob = open(path, 'r+').read().lower()
 
-                keywords = getKeywords(blob)
+                keywords = [key['content'] for key in getKeywords(blob)]
                 print(getTitle(blob))
 
                 #database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
