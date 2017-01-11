@@ -21,7 +21,6 @@ class Database(object):
     def fetch(self, number):
         self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed IS NULL LIMIT " + str(number) + ";")
         results = self.cursor.fetchall()
-        #self.useResults(results)
         return results
 
 
@@ -30,15 +29,6 @@ class Database(object):
             self.cursor.execute("UPDATE queue SET indexed = '1' WHERE ID = " + str(id) + ";")
         except Exception as e:
             print("Error 0x02:")
-            print(e)
-
-    # Set results as 'using' in the the DB by changing indexed to -1
-    def useResults(self, results):
-        try:
-            for line[0] as id in results:
-                self.cursor.execute("UPDATE queue SET indexed = '-1' WHERE ID = " + str(id) + ";")
-        except Exception as e:
-            print("Error 0x04:")
             print(e)
 
     def addKeywords(self, id_url, keywords):

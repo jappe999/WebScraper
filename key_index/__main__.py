@@ -13,7 +13,7 @@ def main(number):
                 url = re.sub('^(http://|https://)(www\.)?', '', line[1]) # Line[1] is the URL from table queue.
                 url = re.sub('(/)$', '', url)
                 print(url)
-                path = '/home/user/WebScraper/Data/Meta/' + url + '/main.meta'
+                path = '/home/user/Desktop/WebScraper/Data/Meta/' + url + '/main.meta'
 
                 keywords = getKeywords(path)
                 print(getTitle(path))
