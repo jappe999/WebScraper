@@ -14,9 +14,10 @@ def main(number):
                 url = re.sub('(/)$', '', url)
                 print(url)
                 path = '/home/user/Desktop/WebScraper/Data/Meta/' + url + '/main.meta'
+                blob = open(path, 'r+').read().lower()
 
-                keywords = getKeywords(path)
-                print(getTitle(path))
+                keywords = getKeywords(blob)
+                print(getTitle(blob))
 
                 #database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
                 #database.update(line[0])

@@ -1,15 +1,17 @@
 from bs4 import BeautifulSoup
 import html5lib
 
-def getKeywords(path):
-    text = open(path, 'r+').read().lower()
+def getKeywords(blob):
     soup = BeautifulSoup(text, 'html5lib') # Init BeautifulSoup
-    soup.findAll(attrs={"name":"keywords"})
+    keys = soup.findAll(attrs={"name":"keywords"})
+    return keys['content']
 
-def getDescription(path):
-    text = open(path, 'r+').read().lower()
+def getDescription(blob):
     soup = BeautifulSoup(text, 'html5lib') # Init BeautifulSoup
-    soup.findAll(attrs={"name":"description"})
+    description = soup.findAll(attrs={"name":"description"})
+    return description['content']
 
-def getTitle(path):
-    pass
+def getTitle(blob):
+    soup = BeautifulSoup(text, 'html5lib') # Init BeautifulSoup
+    title = soup.find('title', text=True)
+    return title['content']
