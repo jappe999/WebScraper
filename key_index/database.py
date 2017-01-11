@@ -1,4 +1,4 @@
-import pymysql, re
+import pymysql
 from threading import Thread
 from sys import exit
 

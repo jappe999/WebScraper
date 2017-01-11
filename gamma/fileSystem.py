@@ -12,7 +12,6 @@ def createFolder(directory):
 
 def setData(html, url):
     directory = 'Data/' + re.sub('^(http://|https://)(www\.)?', '', url)
-    createFolder(directory)
     newDirectory = ""
 
     for i in range(len(directory) - 1):
@@ -22,6 +21,8 @@ def setData(html, url):
     
     if directory[len(directory) - 1] == '.' or directory[len(directory) - 1] == ' ':
         newDirectory += 'ß'
+
+    createFolder(newDirectory)
 
     file = 'index.html'
     with open(newDirectory + '/' + file, 'w+') as f:
