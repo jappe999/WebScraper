@@ -29,5 +29,5 @@ def main(number):
 
 
 if __name__ == '__main__':
-    main(100) # Call main definition with the parameter
+    main(10) # Call main definition with the parameter
               # that represents the amount of URL's proccessed each loop.
