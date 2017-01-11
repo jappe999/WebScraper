@@ -4,14 +4,14 @@ import html5lib
 def getKeywords(blob):
     soup = BeautifulSoup(blob, 'html5lib') # Init BeautifulSoup
     keys = soup.findAll(attrs={"name":"keywords"})
-    return keys
+    return keys['content']
 
 def getDescription(blob):
     soup = BeautifulSoup(blob, 'html5lib') # Init BeautifulSoup
     description = soup.findAll(attrs={"name":"description"})
-    return description
+    return description['content']
 
 def getTitle(blob):
     soup = BeautifulSoup(blob, 'html5lib') # Init BeautifulSoup
-    title = soup.find('title', text=True)
+    title = soup.title.name
     return title
