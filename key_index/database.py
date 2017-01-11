@@ -6,7 +6,7 @@ class Database(object):
     def __init__(self, user, password, database):
         try:
             self.db = pymysql.connect (
-                        host="10.13.1.206",
+                        host="127.0.0.1",
                         port=3306,
                         user=user,
                         password=password,
