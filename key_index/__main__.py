@@ -13,12 +13,13 @@ def main(number):
                 url = re.sub('^(http://|https://)(www\.)?', '', line[1]) # Line[1] is the URL from table queue.
                 url = re.sub('(/)$', '', url)
                 print(url)
-                file = '/home/user/WebScraper/Data/Meta/' + url + '/main.meta'
-                
-                keywords = getKeywords(file)
-                print(getTitle(file))
-                database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
-                database.update(line[0])
+                path = '/home/user/WebScraper/Data/Meta/' + url + '/main.meta'
+
+                keywords = getKeywords(path)
+                print(getTitle(path))
+
+                #database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
+                #database.update(line[0])
             except Exception as e:
                 print(e)
                 continue
