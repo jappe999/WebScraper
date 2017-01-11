@@ -19,7 +19,7 @@ class Database(object):
             exit()
 
     def fetch(self, number):
-        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed = NULL LIMIT " + str(number) + ";")
+        self.cursor.execute("SELECT ID, url FROM queue WHERE visited = 1 AND indexed = 0 LIMIT " + str(number) + ";")
         results = self.cursor.fetchall()
         return results
 
