@@ -20,6 +20,7 @@ def main(number):
 
                 keywords = [key['content'] for key in getKeywords(blob)]
                 print(getTitle(blob))
+                print(keywords)
 
                 #database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
                 #database.update(line[0])
