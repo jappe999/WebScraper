@@ -18,7 +18,7 @@ def main(number):
                 path = '/home/user/Desktop/WebScraper/Data/' + url + '/index.html'
                 blob = open(path, 'r+').read().lower()
 
-                keywords = [key['content'] for key in getKeywords(blob)]
+                keywords = getKeywords(blob)
                 print(getTitle(blob))
                 print(keywords)
 
