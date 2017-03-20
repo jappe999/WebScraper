@@ -45,8 +45,9 @@ class webPage(object):
 
             #resolve the relative url to an absolute url
             href = urljoin(str(self.url), str(link))
-
-            if self.isInBlackList(href) or (not self.isInWhiteList(href)):
+            href = re.sub(r"(\#)[^\!\*\'\(\)\;\:\@\&\=\+\$\,\/\?\[\]]*", "", href)
+ 
+            if self.isInBlackList(href) or (not self.isInWhiteList(href)) or href in results:
                 continue
             
             anchor.append(href)
@@ -57,10 +58,9 @@ class webPage(object):
     def isInBlackList(self, link):
         testURLre = re.search("https?:\/\/([a-z|A-Z|0-9]*\.?)*", link)
         testURL = testURLre.group(0)
-        
-        for blackListEntry in self.blackList:
-            if testURL == blackListEntry:
-                return True
+
+        if testURL in self.blackList:
+            return True
         return False
     
     def isInWhiteList(self, link):
@@ -68,8 +68,7 @@ class webPage(object):
             return True
         testURLre = re.search("https?:\/\/([a-z|A-Z|0-9]*\.?)*", link)
         testURL = testURLre.group(0)
-        for whiteListEntry in self.whiteList:
-            if testURL == whiteListEntry:
-                return True
+        if testURL in self.whiteList:
+            return True
         return False
 

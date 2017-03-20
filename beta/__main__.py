@@ -1,4 +1,4 @@
-import socket, json, re, errno, signal, os
+import socket, json, re, errno, signal, os, sys
 from database import Database
 from colorama import init, Fore, Back, Style
 
@@ -81,5 +81,8 @@ def main(host, port, numberOfLinks):
     print (len(queue))
 
 if __name__ == "__main__":
+    port = 420
+    if len(sys.argv) > 1:
+        port = int(sys.argv[1])
     init()
-    main("", 420, 10)
+    main("", port, 10)

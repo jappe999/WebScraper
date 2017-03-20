@@ -1,0 +1,14 @@
+from bs4 import BeautifulSoup
+import html5lib
+
+def getKeywords(blob):
+    soup = BeautifulSoup(blob, 'html5lib') # Init BeautifulSoup
+    keys = soup.findAll(attrs={"id":"firstHeading"})
+    return keys
+
+def getDescription(blob):
+    soup = BeautifulSoup(blob, 'html5lib') # Init BeautifulSoup
+    subSoup = soup.findAll(attrs={"id":"mw-content-text"})
+    description = subSoup.find('p')
+    if not description is None:
+        subSoup.text

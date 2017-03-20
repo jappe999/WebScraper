@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import requests, json
+import requests, json, sys
 from threading import Thread
 from webPage import webPage
 from fileSystem import *
 from urllib.parse import quote
 
-IP = "http://localhost:420"
+IP = "http://localhost:"
 
 class Crawler(object):
     def __init__(self, urls):
@@ -88,4 +88,7 @@ def getUrlData(data, ip):
         print("error 2: " + str(e))
 
 if __name__ == "__main__":
-    main(IP)
+    port = "420"
+    if len(sys.argv) > 1:
+        port = sys.argv[1]
+    main(IP + port)

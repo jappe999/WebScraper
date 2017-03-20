@@ -19,8 +19,10 @@ def main(number):
                 blob = open(path, 'r+').read().lower()
 
                 keywords = getKeywords(blob)
-                print(getTitle(blob))
-                print(keywords)
+                time.sleep(0)
+                print('Title:', getTitle(blob))
+                time.sleep(5)
+                print('Keys:', keywords)
 
                 #database.addKeywords(line[0], keywords) # Line[0] is the ID of the URL in table queue.
                 #database.update(line[0])
@@ -32,5 +34,5 @@ def main(number):
 
 
 if __name__ == '__main__':
-    main(10) # Call main definition with the parameter
+    main(30) # Call main definition with the parameter
               # that represents the amount of URL's proccessed each loop.
