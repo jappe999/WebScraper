@@ -1,3 +1,4 @@
+from threading import Thread
 from database import Database
 
 database = Database('root', '42069blazeIt', 'beta')
