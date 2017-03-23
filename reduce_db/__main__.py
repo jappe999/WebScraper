@@ -23,7 +23,6 @@ def main(n):
 	# Failsafe for dataloss
 	except KeyboardInterrupt as e:
 		database.close()
-		break
 
 if __name__ == '__main__':
 	main(10)
