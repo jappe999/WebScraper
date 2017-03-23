@@ -24,7 +24,7 @@ class Database(object):
             exit()
 
     def getData(self, numberOfLinks=10):
-        self.cursor.execute("SELECT ID FROM queue WHERE title like '%:%' LIMIT " + str(numberOfLinks) + ";")
+        self.cursor.execute("SELECT ID FROM queue WHERE url like '%:%' LIMIT " + str(numberOfLinks) + ";")
         result = self.cursor.fetchall()
         return result
 
