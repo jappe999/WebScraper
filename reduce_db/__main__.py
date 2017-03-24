@@ -22,7 +22,6 @@ def process(row):
 		print('Error deleting', str(url_id))
 	finally:
 		database.close()
-		return
 
 
 def main(n):
