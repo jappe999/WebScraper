@@ -20,9 +20,9 @@ def main(n):
 	try:
 		while True:
 			# Check for dead threads
-            for thread in threads:
-                if not thread.isAlive():
-                    threads.remove(thread)
+			for thread in threads:
+				if not thread.isAlive():
+					threads.remove(thread)
 
 			if len(threads) < MAX_THREADS:
 				for row in database.getData(n):
@@ -33,14 +33,14 @@ def main(n):
 
 	# Failsafe for dataloss
 	except KeyboardInterrupt as e:
-        print("Trying to peacefully shut down...")
+		print("Trying to peacefully shut down...")
 		while True:
-            for thread in threads:
-                if not thread.isAlive():
-                    threads.remove(thread)
-            if len(threads) < 1:
+			for thread in threads:
+				if not thread.isAlive():
+					threads.remove(thread)
+			if len(threads) < 1:
 				database.close()
-                break
+				break
 
 if __name__ == '__main__':
 	main(10)
