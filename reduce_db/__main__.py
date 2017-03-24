@@ -6,18 +6,16 @@ def process(row):
 	indexed  = row[1]
 	database = Database('root', '42069blazeIt', 'beta')
 	try:
-		if database.execute("DELETE FROM queue WHERE ID='" + str(url_id) + "';"):
-			print('Deleted ID', str(url_id), 'from Queue...')
-		else:
-			print('Error deleting ID', str(url_id), 'from Queue...')
-			return
-
 		if indexed == 1:
-			if database.execute("DELETE FROM keywords WHERE url_id='" + str(url_id) + "';"):
+			if database.execute("DELETE FROM keywords WHERE url_id=" + str(url_id) + ";"):
 				print('Deleted url_id', str(url_id), 'from Keywords...')
 			else:
-				print('Error deleting url_id', str(url_id), 'from Keywords...')
-				return
+				raise Exception('Error deleting url_id', str(url_id), 'from Keywords...')
+		if database.execute("DELETE FROM queue WHERE ID=" + str(url_id) + ";"):
+			print('Deleted ID', str(url_id), 'from Queue...')
+		else:
+			raise Exception('Error deleting ID', str(url_id), 'from Queue...')
+
 	except:
 		print('Error deleting', str(url_id))
 	finally:
