@@ -9,17 +9,20 @@ def process(row):
 		if database.execute("DELETE FROM queue WHERE ID='" + str(url_id) + "';"):
 			print('Deleted ID', str(url_id), 'from Queue...')
 		else:
+			print('Error deleting ID', str(url_id), 'from Queue...')
 			return
 
 		if indexed == 1:
 			if database.execute("DELETE FROM keywords WHERE url_id='" + str(url_id) + "';"):
 				print('Deleted url_id', str(url_id), 'from Keywords...')
 			else:
+				print('Error deleting url_id', str(url_id), 'from Keywords...')
 				return
 	except:
 		print('Error deleting', str(url_id))
 	finally:
 		database.close()
+		return
 
 
 def main(n):
@@ -35,7 +38,8 @@ def main(n):
 					threads.remove(thread)
 
 			if len(threads) < MAX_THREADS:
-				for row in database.getData(n):
+				data = database.getData(n)
+				for row in data:
 					t = Thread(target=process, args=(row,))
 					t.deamon = True
 					t.start()
