@@ -32,8 +32,10 @@ class Database(object):
         try:
             self.cursor.execute(command)
             self.db.commit()
+            return True
         except Exception as e:
             print('MySQL executing error', str(e))
+            return False
 
     def close(self):
         self.cursor.close()
