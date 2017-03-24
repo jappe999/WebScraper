@@ -22,6 +22,7 @@ def process(row):
 		print('Error deleting', str(url_id))
 	finally:
 		database.close()
+		return
 
 
 def main(n):
@@ -37,7 +38,8 @@ def main(n):
                     threads.remove(thread)
 
 			if len(threads) < MAX_THREADS:
-				for row in database.getData(n):
+				data = database.getData(n)
+				for row in data:
 					t = Thread(target=process, args=(row,))
 					t.deamon = True
 					t.start()
