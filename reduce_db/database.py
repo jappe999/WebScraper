@@ -27,7 +27,7 @@ class Database(object):
         self.cursor.execute("SELECT ID, indexed FROM queue WHERE url like '%:%' AND visited>-1 LIMIT " + str(numberOfLinks) + ";")
         result = self.cursor.fetchall()
         for row in result:
-            self.execute("UPDATE queue SET visited=-1 WHERE ID="+row[0]+";")
+            self.execute("UPDATE queue SET visited=-1 WHERE ID="+str(row[0])+";")
         return result
 
     def execute(self, command):
