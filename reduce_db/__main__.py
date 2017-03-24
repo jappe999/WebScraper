@@ -7,9 +7,10 @@ def process(row):
 	database = Database('root', '42069blazeIt', 'beta')
 	try:
 		database.execute("DELETE FROM queue WHERE ID='" + str(url_id) + "';")
+		print('Deleted ID', str(url_id), 'from Queue...')
 		if indexed == 1:
 			database.execute("DELETE FROM keywords WHERE url_id='" + str(url_id) + "';")
-		print('Deleted', str(url_id))
+			print('Deleted url_id', str(url_id), 'from Keywords...')
 	except:
 		print('Error deleting', str(url_id))
 	finally:
