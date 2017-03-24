@@ -2,10 +2,13 @@ from threading import Thread
 from database import Database
 
 def process(row):
-	url_id = row[0]
+	url_id   = row[0]
+	indexed  = row[1]
 	database = Database('root', '42069blazeIt', 'beta')
 	try:
-		database.execute("DELETE FROM queue WHERE ID='" + str(url_id) + "';DELETE FROM keywords WHERE url_id='" + str(url_id) + "';")
+		database.execute("DELETE FROM queue WHERE ID='" + str(url_id) + "';")
+		if indexed == 1:
+			database.execute("DELETE FROM keywords WHERE url_id='" + str(url_id) + "';")
 		print('Deleted', str(url_id))
 	except:
 		print('Error deleting', str(url_id))
