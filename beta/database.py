@@ -36,7 +36,7 @@ class Database(object):
 
     def writeToDb(self, url):
         try:
-            self.cursor.execute("INSERT INTO queue (url, visited, unixtime) VALUES ('" + self.escapeURL(url) + "', '0', '" + str(int(time.time())) + "');")
+            self.cursor.execute("INSERT INTO queue (url, visited, unixtime, content) VALUES ('" + self.escapeURL(url) + "', '0', '" + str(int(time.time())) + "', 'a' );")
             self.db.commit()
         except Exception as e:
             print(Fore.RED + "BETA error 0x2:")
