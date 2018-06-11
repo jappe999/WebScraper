@@ -5,76 +5,70 @@ from urllib.parse import quote, unquote
 from sys import exit
 
 class Database(object):
-    def __init__(self, user, password, database):
+    def __init__(self, user, password, database, host='127.0.0.1', port=3306):
         try:
             init()
             self.db = pymysql.connect (
-                        host="127.0.0.1",
-                        port=3306,
-                        user=user,
-                        password=password,
-                        db=database
+                          host     = host,
+                          port     = port,
+                          user     = user,
+                          password = password,
+                          db       = database
                       )
             self.cursor = self.db.cursor()
         except Exception as e:
-            print(Fore.RED + "BETA error 0x1:")
+            print(Fore.RED + 'BETA error 0x1:')
             print(e)
             print(Style.RESET_ALL)
             exit()
 
-    def getQueue(self, numberOfLinks=10):
-        self.cursor.execute("SELECT url FROM queue WHERE visited = '0' LIMIT " + str(numberOfLinks) + ";")
-        result = self.cursor.fetchall()
+    def get_queue(self, num_links=10):
+        self.execute("SELECT url FROM queue WHERE visited = '0' LIMIT " + str(num_links) + ";")
+
+        result   = self.cursor.fetchall()
         response = []
-    
+
         self.remove(result)
+
         for i in range(len(result)):
             response.append(unquote(result[i][0]))
             response[i] = re.sub(r'(\\)*$', '', response[i])
+
         return response
 
-
-    def writeToDb(self, url):
+    def write_to_db(self, url):
         try:
-            self.cursor.execute("INSERT INTO queue (url, visited, unixtime, content) VALUES ('" + self.escapeURL(url) + "', '0', '" + str(int(time.time())) + "', 'a' );")
-            self.db.commit()
+            self.execute("INSERT INTO queue (url, visited, unixtime, content) VALUES ('" + self.escape_url(url) + "', '0', '" + str(int(time.time())) + "', 'a' );")
         except Exception as e:
-            print(Fore.RED + "BETA error 0x2:")
+            print(Fore.RED + 'BETA error 0x2:')
             print(e)
             print(Style.RESET_ALL)
 
-    def setQueue(self, obj):
-        for url in obj:
-            t = Thread(target=self.writeToDb(url))
+    def set_queue(self, urls):
+        for url in urls:
+            t        = Thread(target=self.write_to_db(url))
             t.daemon = True
             t.start()
+
         return True
 
-    def escapeURL(self, url):
+    def escape_url(self, url):
         return re.sub(r'(\\)*$', '', url)
-#        return quote(url.encode("utf-8"))
 
-    def updateQueue(self, url):
+    def update_queue(self, url):
         try:
-#            print('Escaped: '+self.escapeURL(url))
-#            time.sleep(10)
-            self.cursor.execute("UPDATE queue SET visited='1', unixtime='" + str(int(time.time())) + " ' WHERE url = '" + self.escapeURL(url) + "';")
-            self.db.commit()
+            self.execute("UPDATE queue SET visited='1', unixtime='" + str(int(time.time())) + "' WHERE url = '" + self.escape_url(url) + "';")
         except Exception as e:
-            print(Fore.RED + "BETA error 0x3:")
+            print(Fore.RED + 'BETA error 0x3:')
             print(e)
             print(Style.RESET_ALL)
 
-    def remove(self, obj):
-        for line in obj:
-            url = line[0]
-#            print(url)
-            t = Thread(target=self.updateQueue(url))
+    def remove(self, urls):
+        for line in urls:
+            url      = line[0]
+            t        = Thread(target=self.update_queue(url))
             t.daemon = True
             t.start()
-
-#    def clear(self):
-#        self.cursor.execute("DELETE FROM queue;")
 
     def execute(self, command):
         self.cursor.execute(command)
