@@ -1,94 +1,13 @@
-#!/usr/bin/env python3
+from sys import argv
+from colorama import init
+from Gamma import Gamma
 
-import requests, json, sys
-from threading import Thread
-from webPage import webPage
-from fileSystem import *
-from urllib.parse import quote
+if __name__ == '__main__':
+    # Initialize colorama
+    init()
 
-IP = "http://localhost:"
+    HOST = 'localhost'
+    PORT = str( 420 if len(argv) < 2 else argv[1] )
 
-class Crawler(object):
-    def __init__(self, urls):
-        self.urls = urls
-        self.foundURLs = []
-        self.threads = []
-
-    def crawl(self):
-        while len(self.urls) > 0:
-            t = Thread(target=self.getPage(self.urls[0]))
-            t.deamon = True
-            t.start()
-            self.threads.append(t)
-            del(self.urls[0])
-
-    # Set page in filesystem
-    def setPage(self, url, page):
-        url = re.sub('^(http://|https://)?', '', url)
-        url = quote(url)
-
-        setData(page, url)
-
-    def getPage(self, url):
-        page = webPage(url)
-        response = page.getPage() # ... get pageresponse,...
-        try:
-            if not response == '':
-                self.setPage(url, response)
-        except Exception as e:
-            print(e)
-
-        if not response == '':
-            anchors = page.getAnchors(response) # ... and get hrefs from the response
-            for anchor in anchors: # Repeat the crawl function for every anchor
-                self.foundURLs.append(anchor[0])
-
-def main(ip):
-    localQueue = []
-    foundURLs = []
-    while True:
-        #num -= 1
-        try:
-            localQueue = getUrlData(foundURLs, ip)            
-            foundURLs = []
-
-            crawler = Crawler(localQueue)
-            crawler.crawl()
-            while True:
-                if len(crawler.threads) < 1:
-                    break
-                for i in range(len(crawler.threads)):
-                    if not crawler.threads[i].isAlive():
-                        del(crawler.threads[i])
-                        break
-            foundURLs = crawler.foundURLs
-            
-        except Exception as e:
-            print("error 1: " + str(e))
-
-def getUrlData(data, ip):
-    try:
-        chunks = []
-        if len(data) > 20:
-            while len(data) > 20:
-                chunks.append(data[:20])
-                del(data[:20])
-
-        for chunk in chunks:
-            postData = json.dumps(chunk)
-            requests.post(ip, postData)
-
-        postData = json.dumps(data)
-        doc = requests.post(ip + "/get", postData)
-        urls = doc.json()
-        print(urls)
-
-        return urls
-    except Exception as e:
-        print("error 2: " + str(e))
-
-if __name__ == "__main__":
-    port = "420"
-    if len(sys.argv) > 1:
-        port = sys.argv[1]
-    main(IP + port)
+    gamma = Gamma('http://%s:%s' % (HOST, PORT, ))
+    gamma.start()

@@ -7,7 +7,6 @@ class Server:
         self.host      = host
         self.port      = port
         self.num_links = num_links
-        self.db        = Database('root', 'YOUR_PASSWORD', 'beta')
 
     @staticmethod
     def grim_reaper(signum, frame):
@@ -24,26 +23,26 @@ class Server:
                 return
 
     def parse_request(self, request):
-        if re.search('(\[.*\])', request):
-            post_data = re.search('\[(.*)\]', request).group(1)
-            urls      = (re.sub('\s*\'\s*', '', post_data)).split(',')
+        urls = []
+        data = re.search('(\[.*\])', request)
+
+        if data:
+            data = data.group(1)
+            urls = json.loads(data)
 
         return urls
 
-    def set_queue(self, urls):
-        if self.db.set_queue(urls):
-            print(Fore.GREEN + 'Added', urls, 'to queue.')
-            print(Style.RESET_ALL)
-        else:
-            print(Fore.WHITE + urls)
-            print(Fore.RED + '----------Adding links to queue failed!----------')
-            print(Style.RESET_ALL)
+    def set_queue(self, db, urls):
+        if not urls:
+            return
 
-    def generate_response(self, request):
+        db.set_queue(urls)
+
+    def generate_response(self, db, request):
         response = 'HTTP/1.1 200 OK \n\n'
 
-        if re.search('POST \/get', request):
-            response += json.dumps(self.db.get_queue(self.num_links))
+        if re.search('GET \/get', request):
+            response += json.dumps(db.get_queue(self.num_links))
 
         return response
 
@@ -51,9 +50,11 @@ class Server:
         request = client_connection.recv(4096)
         request = str(request.decode())
 
+        db  = Database('root', 'YOUR_PASSWORD', 'beta')
         urls = self.parse_request(request)
-        self.set_queue(urls)
-        http_response = self.generate_response(request)
+
+        self.set_queue(db, urls)
+        http_response = self.generate_response(db, request)
 
         client_connection.sendall(bytes(http_response, 'utf8'))
         client_connection.close()
@@ -88,7 +89,7 @@ class Server:
             if pid == 0:
                 listener.close()  # close child copy
 
-                self.handle(client_connection, self.num_links)
+                self.handle(client_connection)
 
                 client_connection.close()
                 os._exit(0)
